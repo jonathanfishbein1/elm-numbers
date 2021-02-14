@@ -496,7 +496,7 @@ complexSumGroup =
 -}
 complexProductGroup : Group.Group (ComplexNumber Float)
 complexProductGroup =
-    { monoid = complexProductMonoid, inverse = \(ComplexNumber (Real.Real x) (Imaginary.Imaginary y)) -> divide one (ComplexNumber (Real.Real x) (Imaginary.Imaginary y)) }
+    { monoid = complexProductMonoid, inverse = divide one }
 
 
 {-| Group for Complex Numbers with addition as the operation
