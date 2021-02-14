@@ -20,6 +20,7 @@ module ComplexNumbers exposing
     , sumMonoid, productMonoid, sumCommutativeMonoid, productCommutativeMonoid
     , sumGroup, productGroup
     , commutativeRing, commutativeDivisionRing
+    , field
     , map
     , pure
     , andMap

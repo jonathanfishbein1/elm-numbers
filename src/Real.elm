@@ -4,6 +4,10 @@ module Real exposing
     , one
     , real
     , negate
+    , sumCommutativeSemigroup, productCommutativeSemigroup
+    , sumCommutativeMonoid, productCommutativeMonoid
+    , commutativeRing
+    , field
     , map
     , pure
     , andMap
@@ -33,6 +37,11 @@ module Real exposing
 
 # Semigroup, Monoid, Group, Ring, Field, Functor, Applicative Functor, and Monad
 
+@docs sumSemigroup, productSemigroup, sumCommutativeSemigroup, productCommutativeSemigroup
+@docs sumMonoid, productMonoid, sumCommutativeMonoid, productCommutativeMonoid
+@docs sumGroup, productGroup, complexAbelianGroup
+@docs complexRing, complexDivisionRing, commutativeRing, commutativeDivisionRing
+@docs field
 @docs map
 @docs pure
 @docs andMap
