@@ -23,7 +23,7 @@ suite =
                         ComplexNumbers.ComplexNumber (Real.Real real) (Imaginary.Imaginary imaginary)
 
                     (CommutativeMonoid.CommutativeMonoid monoid) =
-                        ComplexNumbers.complexSumCommutativeMonoid
+                        ComplexNumbers.sumCommutativeMonoid
                 in
                 monoid.semigroup expected monoid.identity
                     |> Expect.equal expected
@@ -57,7 +57,7 @@ suite =
                         [ a, b, c ]
 
                     (CommutativeMonoid.CommutativeMonoid monoid) =
-                        ComplexNumbers.complexSumCommutativeMonoid
+                        ComplexNumbers.sumCommutativeMonoid
                 in
                 monoid.concat listOfMonoids
                     |> Expect.equal expected
@@ -72,7 +72,7 @@ suite =
                         ComplexNumbers.ComplexNumber (Real.Real real) (Imaginary.Imaginary imaginary)
 
                     (CommutativeMonoid.CommutativeMonoid monoid) =
-                        ComplexNumbers.complexProductCommutativeMonoid
+                        ComplexNumbers.productCommutativeMonoid
 
                     result =
                         ComplexNumbers.equal.eq (monoid.semigroup expected monoid.identity) expected
@@ -108,7 +108,7 @@ suite =
                         [ a, b, c ]
 
                     (CommutativeMonoid.CommutativeMonoid monoid) =
-                        ComplexNumbers.complexProductCommutativeMonoid
+                        ComplexNumbers.productCommutativeMonoid
 
                     result =
                         ComplexNumbers.equal.eq (monoid.concat listOfMonoids) expected

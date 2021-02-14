@@ -24,20 +24,20 @@ suite =
                             (Imaginary.Imaginary two)
 
                     inversePlusA =
-                        ComplexNumbers.complexSumGroup.monoid.semigroup
-                            (ComplexNumbers.complexSumGroup.inverse complexNumber)
+                        ComplexNumbers.sumGroup.monoid.semigroup
+                            (ComplexNumbers.sumGroup.inverse complexNumber)
                             complexNumber
 
                     aPlusInverse =
-                        ComplexNumbers.complexSumGroup.monoid.semigroup
+                        ComplexNumbers.sumGroup.monoid.semigroup
                             complexNumber
-                            (ComplexNumbers.complexSumGroup.inverse complexNumber)
+                            (ComplexNumbers.sumGroup.inverse complexNumber)
                 in
                 Expect.true "All equal identity"
                     (inversePlusA
-                        == ComplexNumbers.complexSumGroup.monoid.identity
+                        == ComplexNumbers.sumGroup.monoid.identity
                         && aPlusInverse
-                        == ComplexNumbers.complexSumGroup.monoid.identity
+                        == ComplexNumbers.sumGroup.monoid.identity
                     )
         , Test.fuzz2
             (Fuzz.floatRange 1 10)
@@ -52,17 +52,17 @@ suite =
                             (Imaginary.Imaginary two)
 
                     inversePlusA =
-                        ComplexNumbers.complexProductGroup.monoid.semigroup
-                            (ComplexNumbers.complexProductGroup.inverse complexNumber)
+                        ComplexNumbers.productGroup.monoid.semigroup
+                            (ComplexNumbers.productGroup.inverse complexNumber)
                             complexNumber
 
                     aPlusInverse =
-                        ComplexNumbers.complexProductGroup.monoid.semigroup
+                        ComplexNumbers.productGroup.monoid.semigroup
                             complexNumber
-                            (ComplexNumbers.complexProductGroup.inverse complexNumber)
+                            (ComplexNumbers.productGroup.inverse complexNumber)
                 in
                 Expect.true "All equal identity"
-                    (ComplexNumbers.equal.eq inversePlusA ComplexNumbers.complexProductGroup.monoid.identity
-                        && ComplexNumbers.equal.eq aPlusInverse ComplexNumbers.complexProductGroup.monoid.identity
+                    (ComplexNumbers.equal.eq inversePlusA ComplexNumbers.productGroup.monoid.identity
+                        && ComplexNumbers.equal.eq aPlusInverse ComplexNumbers.productGroup.monoid.identity
                     )
         ]

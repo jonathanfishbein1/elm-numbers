@@ -36,7 +36,7 @@ suite =
                             (Imaginary.Imaginary three)
 
                     semigroup =
-                        ComplexNumbers.complexSumSemigroup
+                        ComplexNumbers.sumSemigroup
 
                     aTimesBThenTimesC =
                         semigroup (semigroup a b) c
@@ -64,7 +64,7 @@ suite =
                             (Imaginary.Imaginary one)
 
                     (CommutativeSemigroup.CommutativeSemigroup semigroup) =
-                        ComplexNumbers.complexSumCommutativeSemigroup
+                        ComplexNumbers.sumCommutativeSemigroup
 
                     aTimesB =
                         semigroup a b
