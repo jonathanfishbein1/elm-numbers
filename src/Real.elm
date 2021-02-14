@@ -4,6 +4,7 @@ module Real exposing
     , one
     , real
     , negate
+    , add, multiply, divide
     , sumSemigroup, productSemigroup, sumCommutativeSemigroup, productCommutativeSemigroup
     , sumMonoid, productMonoid, sumCommutativeMonoid, productCommutativeMonoid
     , sumGroup, productGroup, abelianGroup
@@ -30,10 +31,15 @@ module Real exposing
 @docs one
 
 
-# Arithmetic operations on complex numbers
+# Arithmetic operations on real numbers
 
 @docs real
 @docs negate
+
+
+# Binary operations
+
+@docs add, multiply, divide
 
 
 # Semigroup, Monoid, Group, Ring, Field, Functor, Applicative Functor, and Monad
