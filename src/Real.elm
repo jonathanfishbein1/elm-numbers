@@ -4,9 +4,10 @@ module Real exposing
     , one
     , real
     , negate
-    , sumCommutativeSemigroup, productCommutativeSemigroup
-    , sumCommutativeMonoid, productCommutativeMonoid
-    , commutativeRing
+    , sumSemigroup, productSemigroup, sumCommutativeSemigroup, productCommutativeSemigroup
+    , sumMonoid, productMonoid, sumCommutativeMonoid, productCommutativeMonoid
+    , sumGroup, productGroup, abelianGroup
+    , ring, divisionRing, commutativeRing, commutativeDivisionRing
     , field
     , map
     , pure
@@ -39,8 +40,8 @@ module Real exposing
 
 @docs sumSemigroup, productSemigroup, sumCommutativeSemigroup, productCommutativeSemigroup
 @docs sumMonoid, productMonoid, sumCommutativeMonoid, productCommutativeMonoid
-@docs sumGroup, productGroup, complexAbelianGroup
-@docs complexRing, complexDivisionRing, commutativeRing, commutativeDivisionRing
+@docs sumGroup, productGroup, abelianGroup
+@docs ring, divisionRing, commutativeRing, commutativeDivisionRing
 @docs field
 @docs map
 @docs pure
@@ -199,112 +200,112 @@ equal =
     Typeclasses.Classes.Equality.eq equalImplementation
 
 
-{-| Semigroup for Complex Numbers with addition as the operation
+{-| Semigroup for Real Numbers with addition as the operation
 -}
 sumSemigroup : Semigroup.Semigroup (Real number)
 sumSemigroup =
     add
 
 
-{-| Semigroup for Complex Numbers with addition as the operation
+{-| Semigroup for Real Numbers with addition as the operation
 -}
 productSemigroup : Semigroup.Semigroup (Real Float)
 productSemigroup =
     multiply
 
 
-{-| Semigroup for Complex Numbers with addition as the operation
+{-| Semigroup for Real Numbers with addition as the operation
 -}
 sumCommutativeSemigroup : CommutativeSemigroup.CommutativeSemigroup (Real number)
 sumCommutativeSemigroup =
     CommutativeSemigroup.CommutativeSemigroup sumSemigroup
 
 
-{-| Semigroup for Complex Numbers with multiplicatoin as the operation
+{-| Semigroup for Real Numbers with multiplicatoin as the operation
 -}
 productCommutativeSemigroup : CommutativeSemigroup.CommutativeSemigroup (Real Float)
 productCommutativeSemigroup =
     CommutativeSemigroup.CommutativeSemigroup productSemigroup
 
 
-{-| Monoid for Complex Numbers with addition as the operation
+{-| Monoid for Real Numbers with addition as the operation
 -}
 sumMonoid : Monoid.Monoid (Real number)
 sumMonoid =
     Monoid.semigroupAndIdentity sumSemigroup sumEmpty
 
 
-{-| Monoid for Complex Numbers with multiplication as the operation
+{-| Monoid for Real Numbers with multiplication as the operation
 -}
 productMonoid : Monoid.Monoid (Real Float)
 productMonoid =
     Monoid.semigroupAndIdentity productSemigroup productEmpty
 
 
-{-| Monoid for Complex Numbers with addition as the operation
+{-| Monoid for Real Numbers with addition as the operation
 -}
 sumCommutativeMonoid : CommutativeMonoid.CommutativeMonoid (Real number)
 sumCommutativeMonoid =
     CommutativeMonoid.CommutativeMonoid sumMonoid
 
 
-{-| Monoid for Complex Numbers with multiplication as the operation
+{-| Monoid for Real Numbers with multiplication as the operation
 -}
 productCommutativeMonoid : CommutativeMonoid.CommutativeMonoid (Real Float)
 productCommutativeMonoid =
     CommutativeMonoid.CommutativeMonoid productMonoid
 
 
-{-| Group for Complex Numbers with addition as the operation
+{-| Group for Real Numbers with addition as the operation
 -}
 sumGroup : Group.Group (Real number)
 sumGroup =
     { monoid = sumMonoid, inverse = negate }
 
 
-{-| Group for Complex Numbers with multiplication as the operation
+{-| Group for Real Numbers with multiplication as the operation
 -}
 productGroup : Group.Group (Real Float)
 productGroup =
     { monoid = productMonoid, inverse = divide one }
 
 
-{-| Group for Complex Numbers with addition as the operation
+{-| Group for Real Numbers with addition as the operation
 -}
 abelianGroup : AbelianGroup.AbelianGroup (Real number)
 abelianGroup =
     AbelianGroup.AbelianGroup sumGroup
 
 
-{-| Ring for Complex Numbers
+{-| Ring for Real Numbers
 -}
-complexRing : Ring.Ring (Real Float)
-complexRing =
+ring : Ring.Ring (Real Float)
+ring =
     { addition = abelianGroup, multiplication = productMonoid }
 
 
-{-| Division Ring for Complex Numbers
+{-| Division Ring for Real Numbers
 -}
-complexDivisionRing : DivisionRing.DivisionRing (Real Float)
-complexDivisionRing =
+divisionRing : DivisionRing.DivisionRing (Real Float)
+divisionRing =
     { addition = abelianGroup, multiplication = productGroup }
 
 
-{-| Commutative Ring for Complex Numbers
+{-| Commutative Ring for Real Numbers
 -}
 commutativeRing : CommutativeRing.CommutativeRing (Real Float)
 commutativeRing =
-    CommutativeRing.CommutativeRing complexRing
+    CommutativeRing.CommutativeRing ring
 
 
-{-| Commutative Division Ring for Complex Numbers
+{-| Commutative Division Ring for Real Numbers
 -}
 commutativeDivisionRing : CommutativeDivisionRing.CommutativeDivisionRing (Real Float)
 commutativeDivisionRing =
-    CommutativeDivisionRing.CommutativeDivisionRing complexDivisionRing
+    CommutativeDivisionRing.CommutativeDivisionRing divisionRing
 
 
-{-| Field for Complex Numbers
+{-| Field for Real Numbers
 -}
 field : Field.Field (Real Float)
 field =

@@ -18,8 +18,8 @@ module ComplexNumbers exposing
     , euler
     , sumSemigroup, productSemigroup, sumCommutativeSemigroup, productCommutativeSemigroup
     , sumMonoid, productMonoid, sumCommutativeMonoid, productCommutativeMonoid
-    , sumGroup, productGroup
-    , commutativeRing, commutativeDivisionRing
+    , sumGroup, productGroup, abelianGroup
+    , ring, divisionRing, commutativeRing, commutativeDivisionRing
     , field
     , map
     , pure
@@ -31,7 +31,6 @@ module ComplexNumbers exposing
     , print
     , printiNotation
     , printiNotationWithRounding
-    , abelianGroup, divisionRing, ring
     )
 
 {-| A module for complex numbers
@@ -70,8 +69,8 @@ module ComplexNumbers exposing
 
 @docs sumSemigroup, productSemigroup, sumCommutativeSemigroup, productCommutativeSemigroup
 @docs sumMonoid, productMonoid, sumCommutativeMonoid, productCommutativeMonoid
-@docs sumGroup, productGroup, complexAbelianGroup
-@docs complexRing, complexDivisionRing, commutativeRing, commutativeDivisionRing
+@docs sumGroup, productGroup, abelianGroup
+@docs ring, divisionRing, commutativeRing, commutativeDivisionRing
 @docs field
 @docs map
 @docs pure
