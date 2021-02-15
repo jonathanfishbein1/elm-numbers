@@ -144,16 +144,16 @@ i =
 
 {-| Extracts the real part of a complex number
 -}
-real : ComplexNumber a -> a
+real : ComplexNumber a -> Real.Real a
 real (ComplexNumber rl _) =
-    Real.real rl
+    rl
 
 
 {-| Extracts the imaginary part of a complex number
 -}
-imaginary : ComplexNumber a -> a
+imaginary : ComplexNumber a -> Imaginary.Imaginary a
 imaginary (ComplexNumber _ imag) =
-    Imaginary.imaginary imag
+    imag
 
 
 {-| Add two complex numbers together
@@ -294,8 +294,8 @@ andThen :
     -> ComplexNumber b
 andThen f (ComplexNumber (Real.Real previousReal) (Imaginary.Imaginary previousImaginary)) =
     ComplexNumber
-        (Real.Real <| real <| f previousReal)
-        (Imaginary.Imaginary <| imaginary <| f previousImaginary)
+        (real <| f previousReal)
+        (imaginary <| f previousImaginary)
 
 
 {-| Lift a binary function to work with complex numbers
