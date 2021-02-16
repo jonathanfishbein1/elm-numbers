@@ -4,7 +4,7 @@ module Real exposing
     , one
     , real
     , negate
-    , add, multiply, divide
+    , add, multiply, divide, greaterThan
     , sumSemigroup, productSemigroup, sumCommutativeSemigroup, productCommutativeSemigroup
     , sumMonoid, productMonoid, sumCommutativeMonoid, productCommutativeMonoid
     , sumGroup, productGroup, abelianGroup
@@ -39,7 +39,7 @@ module Real exposing
 
 # Binary operations
 
-@docs add, multiply, divide
+@docs add, multiply, divide, greaterThan
 
 
 # Semigroup, Monoid, Group, Ring, Field, Functor, Applicative Functor, and Monad
@@ -204,6 +204,13 @@ equalImplementation (Real realOne) (Real realTwo) =
 equal : Typeclasses.Classes.Equality.Equality (Real Float)
 equal =
     Typeclasses.Classes.Equality.eq equalImplementation
+
+
+{-| Greater than of Real Numbers
+-}
+greaterThan : Real number -> Real number -> Bool
+greaterThan (Real realOne) (Real realTwo) =
+    realOne <= realTwo
 
 
 {-| Semigroup for Real Numbers with addition as the operation
