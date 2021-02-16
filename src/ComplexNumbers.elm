@@ -387,46 +387,9 @@ parseComplexNumber =
     Parser.succeed ComplexNumber
         |. Parser.keyword "ComplexNumber"
         |. Parser.spaces
-        |= parseReal
+        |= Real.parseReal
         |. Parser.spaces
-        |= parseImaginary
-
-
-parseReal : Parser.Parser (Real.Real Float)
-parseReal =
-    Parser.succeed Real.Real
-        |. Parser.keyword "Real.Real"
-        |. Parser.spaces
-        |= positiveOrNegativeFloat
-
-
-parseImaginary : Parser.Parser (Imaginary.Imaginary Float)
-parseImaginary =
-    Parser.succeed Imaginary.Imaginary
-        |. Parser.keyword "Imaginary.Imaginary"
-        |. Parser.spaces
-        |= positiveOrNegativeFloat
-
-
-float : Parser.Parser Float
-float =
-    Parser.number
-        { int = Just toFloat
-        , hex = Nothing
-        , octal = Nothing
-        , binary = Nothing
-        , float = Just identity
-        }
-
-
-positiveOrNegativeFloat : Parser.Parser Float
-positiveOrNegativeFloat =
-    Parser.oneOf
-        [ Parser.succeed negate
-            |. Parser.symbol "-"
-            |= float
-        , float
-        ]
+        |= Imaginary.parseImaginary
 
 
 {-| Semigroup for Complex Numbers with addition as the operation

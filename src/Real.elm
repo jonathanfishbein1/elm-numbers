@@ -15,6 +15,7 @@ module Real exposing
     , andMap
     , andThen
     , equal
+    , float, parseReal, positiveOrNegativeFloat
     )
 
 {-| A module for Real numbers
@@ -70,6 +71,7 @@ import Field
 import Float.Extra
 import Group
 import Monoid
+import Parser exposing ((|.), (|=))
 import Ring
 import Semigroup
 import Typeclasses.Classes.Equality
@@ -323,3 +325,32 @@ commutativeDivisionRing =
 field : Field.Field (Real Float)
 field =
     Field.Field commutativeDivisionRing
+
+
+float : Parser.Parser Float
+float =
+    Parser.number
+        { int = Just toFloat
+        , hex = Nothing
+        , octal = Nothing
+        , binary = Nothing
+        , float = Just identity
+        }
+
+
+positiveOrNegativeFloat : Parser.Parser Float
+positiveOrNegativeFloat =
+    Parser.oneOf
+        [ Parser.succeed Basics.negate
+            |. Parser.symbol "-"
+            |= float
+        , float
+        ]
+
+
+parseReal : Parser.Parser (Real Float)
+parseReal =
+    Parser.succeed Real
+        |. Parser.keyword "Real.Real"
+        |. Parser.spaces
+        |= positiveOrNegativeFloat

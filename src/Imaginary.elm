@@ -8,6 +8,7 @@ module Imaginary exposing
     , pure
     , andMap
     , equal
+    , parseImaginary
     )
 
 {-| A module for Imaginary numbers
@@ -43,6 +44,8 @@ module Imaginary exposing
 -}
 
 import Float.Extra
+import Parser exposing ((|.), (|=))
+import Real
 import Typeclasses.Classes.Equality
 
 
@@ -119,3 +122,11 @@ equalImplementation (Imaginary realOne) (Imaginary realTwo) =
 equal : Typeclasses.Classes.Equality.Equality (Imaginary Float)
 equal =
     Typeclasses.Classes.Equality.eq equalImplementation
+
+
+parseImaginary : Parser.Parser (Imaginary Float)
+parseImaginary =
+    Parser.succeed Imaginary
+        |. Parser.keyword "Imaginary.Imaginary"
+        |. Parser.spaces
+        |= Real.positiveOrNegativeFloat
