@@ -15,7 +15,7 @@ module Real exposing
     , andMap
     , andThen
     , equal
-    , float, parseReal, positiveOrNegativeFloat, print
+    , parseReal, print
     )
 
 {-| A module for Real numbers
@@ -146,8 +146,8 @@ divide (Real realDividend) (Real realDivisor) =
 {-| Negate a Real number
 -}
 negate : Real number -> Real number
-negate rl =
-    Real -(real rl)
+negate (Real rl) =
+    Real -rl
 
 
 {-| Extracts the value of a Real number

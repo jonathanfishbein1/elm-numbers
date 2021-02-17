@@ -24,10 +24,7 @@ suite =
                             (Real.Real one)
                             (Imaginary.Imaginary <| Real.Real two)
 
-                    (ComplexNumbers.ComplexNumber (Real.Real real) _) =
-                        number
-
-                    (ComplexNumbers.ComplexNumber _ (Imaginary.Imaginary (Real.Real imaginary))) =
+                    (ComplexNumbers.ComplexNumber (Real.Real real) (Imaginary.Imaginary (Real.Real imaginary))) =
                         number
 
                     length =
@@ -36,9 +33,9 @@ suite =
                             + imaginary
                             ^ 2
                             |> sqrt
+                            |> Real.Real
                 in
-                ComplexNumbers.modulus number
-                    |> Expect.within (Expect.Absolute 0.000000001) length
+                Expect.true "modules equals length " (Real.equal.eq (ComplexNumbers.modulus number) length)
         , Test.fuzz3
             (Fuzz.floatRange -10 10)
             (Fuzz.floatRange -10 10)
@@ -64,13 +61,13 @@ suite =
                         ComplexNumbers.modulus numberTwo
 
                     productLengthOneLengthTwo =
-                        lengthOne * lengthTwo
+                        Real.multiply lengthOne lengthTwo
 
                     modulesOfProductOfNumberOneNumberTwo =
                         ComplexNumbers.multiply numberOne numberTwo
                             |> ComplexNumbers.modulus
                 in
-                Expect.within (Expect.Absolute 10) productLengthOneLengthTwo modulesOfProductOfNumberOneNumberTwo
+                Expect.true "modules equals length " (Real.equal.eq productLengthOneLengthTwo modulesOfProductOfNumberOneNumberTwo)
         , Test.fuzz3
             (Fuzz.floatRange -10 10)
             (Fuzz.floatRange -10 10)
@@ -89,7 +86,7 @@ suite =
                             (Real.Real two)
                             (Imaginary.Imaginary <| Real.Real three)
 
-                    modulesOfSumOfNumberOneNumberTwo =
+                    (Real.Real modulesOfSumOfNumberOneNumberTwo) =
                         ComplexNumbers.add numberOne numberTwo
                             |> ComplexNumbers.modulus
 
@@ -99,8 +96,8 @@ suite =
                     modulusTwo =
                         ComplexNumbers.modulus numberTwo
 
-                    sumLengthOneLengthTwo =
-                        modulusOne + modulusTwo
+                    (Real.Real sumLengthOneLengthTwo) =
+                        Real.add modulusOne modulusTwo
                 in
                 modulesOfSumOfNumberOneNumberTwo |> Expect.atMost sumLengthOneLengthTwo
         , Test.fuzz2
@@ -231,20 +228,20 @@ suite =
                             |> ComplexNumbers.modulus
 
                     expected =
-                        ComplexNumbers.modulus testValue ^ 2
+                        Real.multiply (ComplexNumbers.modulus testValue) (ComplexNumbers.modulus testValue)
                 in
-                Expect.within (Expect.Absolute 0.000000001) producttestValueconjugate expected
+                Expect.equal producttestValueconjugate expected
         , Test.fuzz2
-            (Fuzz.floatRange 1 10)
-            (Fuzz.floatRange 1 10)
+            (Fuzz.map Real.Real (Fuzz.floatRange 1 10))
+            (Fuzz.map Real.Real (Fuzz.floatRange 1 10))
             "tests reciprocal of complex number equals conjugate divided by modules squared"
           <|
             \real imaginary ->
                 let
                     testValue =
                         ComplexNumbers.ComplexNumber
-                            (Real.Real real)
-                            (Imaginary.Imaginary <| Real.Real imaginary)
+                            real
+                            (Imaginary.Imaginary imaginary)
 
                     reciprocal =
                         ComplexNumbers.divide ComplexNumbers.one testValue
@@ -253,11 +250,11 @@ suite =
                         ComplexNumbers.conjugate testValue
 
                     modulusSquared =
-                        ComplexNumbers.modulus testValue ^ 2
+                        Real.multiply (ComplexNumbers.modulus testValue) (ComplexNumbers.modulus testValue)
 
                     modulusSquaredComplexNumber =
                         ComplexNumbers.ComplexNumber
-                            (Real.Real modulusSquared)
+                            modulusSquared
                             Imaginary.zero
 
                     conjugateDividedByModulesSquared =
@@ -312,25 +309,23 @@ suite =
                     zLength =
                         ComplexNumbers.modulus z
                 in
-                zLength
-                    |> Expect.all [ Expect.within (Expect.Absolute 0.0000000001) 0 ]
+                Expect.equal zLength Real.zero
         , Test.fuzz2
-            (Fuzz.floatRange 1 10)
-            (Fuzz.floatRange -10 -1)
+            (Fuzz.map Real.Real (Fuzz.floatRange 1 10))
+            (Fuzz.map Real.Real (Fuzz.floatRange -10 -1))
             "length of z is not 0 if z real and imaginary parts are not 0"
           <|
             \real imaginary ->
                 let
                     z =
                         ComplexNumbers.ComplexNumber
-                            (Real.Real real)
-                            (Imaginary.Imaginary <| Real.Real imaginary)
+                            real
+                            (Imaginary.Imaginary imaginary)
 
                     zLength =
                         ComplexNumbers.modulus z
                 in
-                zLength
-                    |> Expect.all [ Expect.notWithin (Expect.Absolute 0.0000000001) 0 ]
+                Expect.notEqual zLength Real.zero
         , Test.fuzz2
             (Fuzz.floatRange -10 10)
             (Fuzz.floatRange -10 10)
@@ -488,7 +483,7 @@ suite =
             \_ ->
                 let
                     complexNumberAtPi =
-                        ComplexNumbers.euler Basics.pi
+                        ComplexNumbers.euler (Real.Real Basics.pi)
                 in
                 Expect.true "e ^ (i * pi) + 1 = 0"
                     (ComplexNumbers.equal.eq
@@ -496,7 +491,7 @@ suite =
                         ComplexNumbers.zero
                     )
         , Test.fuzz
-            Fuzz.float
+            (Fuzz.map Real.Real Fuzz.float)
             "test length of e ^ (i * theta)"
           <|
             \one ->
@@ -504,10 +499,9 @@ suite =
                     complexNumber =
                         ComplexNumbers.euler one
                 in
-                ComplexNumbers.modulus complexNumber
-                    |> Expect.within (Expect.Absolute 0.000000001) 1
+                Expect.true "length of e ^ (i * theta) == 1" (Real.equal.eq (ComplexNumbers.modulus complexNumber) Real.one)
         , Test.fuzz
-            Fuzz.float
+            (Fuzz.map Real.Real Fuzz.float)
             "conjugate of e ^ (i * theta) = e ^ -i * theta)"
           <|
             \one ->
@@ -519,8 +513,7 @@ suite =
                         ComplexNumbers.conjugate complexNumber
 
                     complexNumberNegativeTheta =
-                        ComplexNumbers.euler -one
+                        ComplexNumbers.euler (Real.negate one)
                 in
-                Expect.true "conjugate of e ^ (i * theta) = e ^ -i * theta)"
-                    (ComplexNumbers.equal.eq complexNumberConjugate complexNumberNegativeTheta)
+                Expect.equal complexNumberConjugate complexNumberNegativeTheta
         ]

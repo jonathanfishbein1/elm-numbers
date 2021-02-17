@@ -214,10 +214,10 @@ divide complexNumberDividend complexNumberCartesianDivisor =
 
 {-| Calculate the modulus of a complex number
 -}
-modulus : ComplexNumber Float -> Float
-modulus (ComplexNumber (Real.Real rl) (Imaginary.Imaginary (Real.Real imag))) =
-    (rl ^ 2 + imag ^ 2)
-        |> sqrt
+modulus : ComplexNumber Float -> Real.Real Float
+modulus (ComplexNumber rl (Imaginary.Imaginary imag)) =
+    Real.add (Real.multiply rl rl) (Real.multiply imag imag)
+        |> Real.map Basics.sqrt
 
 
 {-| Calculate the conjugate of a complex number
@@ -449,8 +449,8 @@ field =
 
 {-| Euler's equation
 -}
-euler : Float -> ComplexNumber Float
-euler theta =
+euler : Real.Real Float -> ComplexNumber Float
+euler (Real.Real theta) =
     ComplexNumber (Real.Real <| Basics.cos theta) (Imaginary.Imaginary <| Real.Real <| Basics.sin theta)
 
 
