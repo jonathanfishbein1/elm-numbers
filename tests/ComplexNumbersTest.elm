@@ -209,8 +209,8 @@ suite =
                 in
                 Expect.equal productOfconjugateOneconjugateTwo conjugateOfproductOfNumberOneNumberTwo
         , Test.fuzz2
-            (Fuzz.map Real.Real (Fuzz.floatRange -10 10))
-            (Fuzz.map Real.Real (Fuzz.floatRange -10 10))
+            (Fuzz.map Real.Real Fuzz.float)
+            (Fuzz.map Real.Real Fuzz.float)
             "tests complex number multipled by conjugate equals modulus squared"
           <|
             \real imaginary ->
