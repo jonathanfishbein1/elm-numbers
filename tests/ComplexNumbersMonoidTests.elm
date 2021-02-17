@@ -79,27 +79,27 @@ suite =
                 in
                 Expect.true "equal" result
         , Test.fuzz3
-            (Fuzz.floatRange -10 10)
-            (Fuzz.floatRange -10 10)
-            (Fuzz.floatRange -10 10)
+            (Fuzz.map Real.Real (Fuzz.floatRange -10 10))
+            (Fuzz.map Real.Real (Fuzz.floatRange -10 10))
+            (Fuzz.map Real.Real (Fuzz.floatRange -10 10))
             "tests monoidally product"
           <|
             \one two three ->
                 let
                     a =
                         ComplexNumbers.ComplexNumber
-                            (Real.Real one)
-                            (Imaginary.Imaginary <| Real.Real two)
+                            one
+                            (Imaginary.Imaginary two)
 
                     b =
                         ComplexNumbers.ComplexNumber
-                            (Real.Real two)
-                            (Imaginary.Imaginary <| Real.Real three)
+                            two
+                            (Imaginary.Imaginary three)
 
                     c =
                         ComplexNumbers.ComplexNumber
-                            (Real.Real one)
-                            (Imaginary.Imaginary <| Real.Real three)
+                            one
+                            (Imaginary.Imaginary three)
 
                     expected =
                         ComplexNumbers.multiply (ComplexNumbers.multiply a b) c

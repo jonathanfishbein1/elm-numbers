@@ -102,27 +102,27 @@ suite =
                 ComplexNumbers.add testValue ComplexNumbers.zero
                     |> Expect.equal testValue
         , Test.fuzz3
-            (Fuzz.floatRange -10 10)
-            (Fuzz.floatRange -10 10)
-            (Fuzz.floatRange -10 10)
+            (Fuzz.map Real.Real (Fuzz.floatRange -10 10))
+            (Fuzz.map Real.Real (Fuzz.floatRange -10 10))
+            (Fuzz.map Real.Real (Fuzz.floatRange -10 10))
             "tests ComplexNumbers multiplication distributes over addition"
           <|
             \one two three ->
                 let
                     a =
                         ComplexNumbers.ComplexNumber
-                            (Real.Real one)
-                            (Imaginary.Imaginary <| Real.Real two)
+                            one
+                            (Imaginary.Imaginary two)
 
                     b =
                         ComplexNumbers.ComplexNumber
-                            (Real.Real two)
-                            (Imaginary.Imaginary <| Real.Real three)
+                            two
+                            (Imaginary.Imaginary three)
 
                     c =
                         ComplexNumbers.ComplexNumber
-                            (Real.Real one)
-                            (Imaginary.Imaginary <| Real.Real three)
+                            one
+                            (Imaginary.Imaginary three)
 
                     testValueOne =
                         ComplexNumbers.multiply a (ComplexNumbers.add b c)
