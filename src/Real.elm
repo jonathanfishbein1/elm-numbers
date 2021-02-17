@@ -15,7 +15,8 @@ module Real exposing
     , andMap
     , andThen
     , equal
-    , parseReal, print
+    , print
+    , parseReal
     )
 
 {-| A module for Real numbers
@@ -58,6 +59,12 @@ module Real exposing
 #Equality
 
 @docs equal
+
+
+# Read and Print
+
+@docs print
+@docs parseReal
 
 -}
 
@@ -348,6 +355,8 @@ positiveOrNegativeFloat =
         ]
 
 
+{-| Parse Real Number
+-}
 parseReal : Parser.Parser (Real Float)
 parseReal =
     Parser.succeed Real
