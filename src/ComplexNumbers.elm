@@ -215,7 +215,7 @@ divide complexNumberDividend complexNumberCartesianDivisor =
 {-| Calculate the modulus of a complex number
 -}
 modulus : ComplexNumber Float -> Float
-modulus (ComplexNumber (Real.Real rl) (Imaginary.Imaginary imag)) =
+modulus (ComplexNumber (Real.Real rl) (Imaginary.Imaginary (Real.Real imag))) =
     (rl ^ 2 + imag ^ 2)
         |> sqrt
 
@@ -239,7 +239,7 @@ imaginaryAxisReflection (ComplexNumber rl img) =
 convertFromCartesianToPolar :
     ComplexNumber Float
     -> Internal.ComplexNumbers.ComplexNumber Float
-convertFromCartesianToPolar (ComplexNumber (Real.Real rl) (Imaginary.Imaginary imag)) =
+convertFromCartesianToPolar (ComplexNumber (Real.Real rl) (Imaginary.Imaginary (Real.Real imag))) =
     let
         polar =
             toPolar ( rl, imag )
@@ -259,7 +259,7 @@ convertFromPolarToCartesian (Internal.ComplexNumbers.ComplexNumber (Internal.Com
         cartesian =
             fromPolar ( ro, theta )
     in
-    ComplexNumber (Real.Real <| Tuple.first cartesian) (Imaginary.Imaginary <| Tuple.second cartesian)
+    ComplexNumber (Real.Real <| Tuple.first cartesian) (Imaginary.Imaginary <| Real.Real <| Tuple.second cartesian)
 
 
 {-| Map over a complex number
@@ -292,7 +292,7 @@ andThen :
     (a -> ComplexNumber b)
     -> ComplexNumber a
     -> ComplexNumber b
-andThen f (ComplexNumber (Real.Real previousReal) (Imaginary.Imaginary previousImaginary)) =
+andThen f (ComplexNumber (Real.Real previousReal) (Imaginary.Imaginary (Real.Real previousImaginary))) =
     ComplexNumber
         (real <| f previousReal)
         (imaginary <| f previousImaginary)
@@ -333,63 +333,6 @@ power : Float -> ComplexNumber Float -> ComplexNumber Float
 power n complexNumber =
     Internal.ComplexNumbers.power n (convertFromCartesianToPolar complexNumber)
         |> convertFromPolarToCartesian
-
-
-{-| Print ComplexNumber
--}
-print : ComplexNumber Float -> String
-print (ComplexNumber (Real.Real rl) (Imaginary.Imaginary imag)) =
-    "ComplexNumber Real.Real "
-        ++ String.fromFloat rl
-        ++ " Imaginary.Imaginary "
-        ++ String.fromFloat imag
-
-
-{-| Print ComplexNumber i notation with rounding function
--}
-printiNotationWithRounding : (Float -> String) -> ComplexNumber Float -> String
-printiNotationWithRounding toString (ComplexNumber (Real.Real rl) (Imaginary.Imaginary imag)) =
-    (if rl < 0 then
-        "−"
-
-     else
-        "+"
-    )
-        ++ toString (Basics.abs rl)
-        ++ (if imag < 0 then
-                "−"
-
-            else
-                "+"
-           )
-        ++ toString (Basics.abs imag)
-        ++ "i"
-
-
-{-| Print ComplexNumber i notation with two decimal places
--}
-printiNotation : ComplexNumber Float -> String
-printiNotation =
-    printiNotationWithRounding (Round.round 2)
-
-
-{-| Read ComplexNumber
--}
-read : String -> Result (List Parser.DeadEnd) (ComplexNumber Float)
-read vectorString =
-    Parser.run parseComplexNumber vectorString
-
-
-{-| Parse ComplexNumber
--}
-parseComplexNumber : Parser.Parser (ComplexNumber Float)
-parseComplexNumber =
-    Parser.succeed ComplexNumber
-        |. Parser.keyword "ComplexNumber"
-        |. Parser.spaces
-        |= Real.parseReal
-        |. Parser.spaces
-        |= Imaginary.parseImaginary
 
 
 {-| Semigroup for Complex Numbers with addition as the operation
@@ -508,4 +451,60 @@ field =
 -}
 euler : Float -> ComplexNumber Float
 euler theta =
-    ComplexNumber (Real.Real <| Basics.cos theta) (Imaginary.Imaginary <| Basics.sin theta)
+    ComplexNumber (Real.Real <| Basics.cos theta) (Imaginary.Imaginary <| Real.Real <| Basics.sin theta)
+
+
+{-| Print ComplexNumber
+-}
+print : ComplexNumber Float -> String
+print (ComplexNumber rl imag) =
+    "ComplexNumber "
+        ++ Real.print rl
+        ++ Imaginary.print imag
+
+
+{-| Print ComplexNumber i notation with rounding function
+-}
+printiNotationWithRounding : (Float -> String) -> ComplexNumber Float -> String
+printiNotationWithRounding toString (ComplexNumber (Real.Real rl) (Imaginary.Imaginary (Real.Real imag))) =
+    (if rl < 0 then
+        "−"
+
+     else
+        "+"
+    )
+        ++ toString (Basics.abs rl)
+        ++ (if imag < 0 then
+                "−"
+
+            else
+                "+"
+           )
+        ++ toString (Basics.abs imag)
+        ++ "i"
+
+
+{-| Print ComplexNumber i notation with two decimal places
+-}
+printiNotation : ComplexNumber Float -> String
+printiNotation =
+    printiNotationWithRounding (Round.round 2)
+
+
+{-| Read ComplexNumber
+-}
+read : String -> Result (List Parser.DeadEnd) (ComplexNumber Float)
+read vectorString =
+    Parser.run parseComplexNumber vectorString
+
+
+{-| Parse ComplexNumber
+-}
+parseComplexNumber : Parser.Parser (ComplexNumber Float)
+parseComplexNumber =
+    Parser.succeed ComplexNumber
+        |. Parser.keyword "ComplexNumber"
+        |. Parser.spaces
+        |= Real.parseReal
+        |. Parser.spaces
+        |= Imaginary.parseImaginary

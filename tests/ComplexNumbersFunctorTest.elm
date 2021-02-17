@@ -22,7 +22,7 @@ suite =
                     complexNumber =
                         ComplexNumbers.ComplexNumber
                             (Real.Real one)
-                            (Imaginary.Imaginary two)
+                            (Imaginary.Imaginary <| Real.Real two)
 
                     mapResult =
                         ComplexNumbers.map identity complexNumber
@@ -56,7 +56,7 @@ suite =
                     complexNumber =
                         ComplexNumbers.ComplexNumber
                             (Real.Real one)
-                            (Imaginary.Imaginary two)
+                            (Imaginary.Imaginary <| Real.Real two)
 
                     f =
                         (*) 2

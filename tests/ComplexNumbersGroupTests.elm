@@ -21,7 +21,7 @@ suite =
                     complexNumber =
                         ComplexNumbers.ComplexNumber
                             (Real.Real one)
-                            (Imaginary.Imaginary two)
+                            (Imaginary.Imaginary <| Real.Real two)
 
                     inversePlusA =
                         ComplexNumbers.sumGroup.monoid.semigroup
@@ -49,7 +49,7 @@ suite =
                     complexNumber =
                         ComplexNumbers.ComplexNumber
                             (Real.Real one)
-                            (Imaginary.Imaginary two)
+                            (Imaginary.Imaginary <| Real.Real two)
 
                     inversePlusA =
                         ComplexNumbers.productGroup.monoid.semigroup

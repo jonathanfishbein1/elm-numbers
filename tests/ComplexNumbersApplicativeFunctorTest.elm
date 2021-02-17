@@ -28,8 +28,8 @@ suite =
                                 (Real.Real
                                     one
                                 )
-                                (Imaginary.Imaginary
-                                    two
+                                (Imaginary.Imaginary <|
+                                    Real.Real two
                                 )
 
                         cApplied =
@@ -59,8 +59,8 @@ suite =
                                 (Real.Real
                                     one
                                 )
-                                (Imaginary.Imaginary
-                                    one
+                                (Imaginary.Imaginary <|
+                                    Real.Real one
                                 )
 
                         leftSide =
@@ -232,7 +232,9 @@ suite =
                     complexNumber =
                         ComplexNumbers.ComplexNumber
                             (Real.Real one)
-                            (Imaginary.Imaginary two)
+                            (Imaginary.Imaginary <|
+                                Real.Real two
+                            )
 
                     f =
                         (*) 2
@@ -280,7 +282,9 @@ suite =
                     complexNumber =
                         ComplexNumbers.ComplexNumber
                             (Real.Real one)
-                            (Imaginary.Imaginary two)
+                            (Imaginary.Imaginary <|
+                                Real.Real two
+                            )
 
                     doubleComplexNumber =
                         ComplexNumbers.add complexNumber complexNumber
@@ -306,7 +310,9 @@ suite =
                     complexNumber =
                         ComplexNumbers.ComplexNumber
                             (Real.Real one)
-                            (Imaginary.Imaginary two)
+                            (Imaginary.Imaginary <|
+                                Real.Real two
+                            )
 
                     f =
                         (-)
@@ -318,7 +324,7 @@ suite =
                         ComplexNumbers.andMap complexNumber fMapX
                 in
                 pureFApplyX
-                    |> Expect.equal (ComplexNumbers.ComplexNumber (Real.Real 0) (Imaginary.Imaginary 0))
+                    |> Expect.equal (ComplexNumbers.ComplexNumber (Real.Real 0) (Imaginary.Imaginary Real.zero))
         , Test.fuzz2
             Fuzz.int
             Fuzz.int

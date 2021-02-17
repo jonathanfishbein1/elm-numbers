@@ -22,12 +22,12 @@ suite =
                     number =
                         ComplexNumbers.ComplexNumber
                             (Real.Real one)
-                            (Imaginary.Imaginary two)
+                            (Imaginary.Imaginary <| Real.Real two)
 
                     (ComplexNumbers.ComplexNumber (Real.Real real) _) =
                         number
 
-                    (ComplexNumbers.ComplexNumber _ (Imaginary.Imaginary imaginary)) =
+                    (ComplexNumbers.ComplexNumber _ (Imaginary.Imaginary (Real.Real imaginary))) =
                         number
 
                     length =
@@ -50,12 +50,12 @@ suite =
                     numberOne =
                         ComplexNumbers.ComplexNumber
                             (Real.Real one)
-                            (Imaginary.Imaginary two)
+                            (Imaginary.Imaginary <| Real.Real two)
 
                     numberTwo =
                         ComplexNumbers.ComplexNumber
                             (Real.Real two)
-                            (Imaginary.Imaginary three)
+                            (Imaginary.Imaginary <| Real.Real three)
 
                     lengthOne =
                         ComplexNumbers.modulus numberOne
@@ -82,12 +82,12 @@ suite =
                     numberOne =
                         ComplexNumbers.ComplexNumber
                             (Real.Real one)
-                            (Imaginary.Imaginary two)
+                            (Imaginary.Imaginary <| Real.Real two)
 
                     numberTwo =
                         ComplexNumbers.ComplexNumber
                             (Real.Real two)
-                            (Imaginary.Imaginary three)
+                            (Imaginary.Imaginary <| Real.Real three)
 
                     modulesOfSumOfNumberOneNumberTwo =
                         ComplexNumbers.add numberOne numberTwo
@@ -113,12 +113,12 @@ suite =
                     testValue =
                         ComplexNumbers.ComplexNumber
                             (Real.Real real)
-                            (Imaginary.Imaginary imaginary)
+                            (Imaginary.Imaginary <| Real.Real imaginary)
 
                     expected =
                         ComplexNumbers.ComplexNumber
                             (Real.Real <| real)
-                            (Imaginary.Imaginary <| -imaginary)
+                            (Imaginary.Imaginary <| Real.Real <| -imaginary)
                 in
                 ComplexNumbers.conjugate testValue
                     |> Expect.equal expected
@@ -132,12 +132,12 @@ suite =
                     testValue =
                         ComplexNumbers.ComplexNumber
                             (Real.Real real)
-                            (Imaginary.Imaginary imaginary)
+                            (Imaginary.Imaginary <| Real.Real imaginary)
 
                     conjugate =
                         ComplexNumbers.ComplexNumber
                             (Real.Real <| real)
-                            (Imaginary.Imaginary <| -imaginary)
+                            (Imaginary.Imaginary <| Real.Real <| -imaginary)
 
                     conjugateConjugate =
                         ComplexNumbers.conjugate conjugate
@@ -154,12 +154,12 @@ suite =
                     numberOne =
                         ComplexNumbers.ComplexNumber
                             (Real.Real one)
-                            (Imaginary.Imaginary two)
+                            (Imaginary.Imaginary <| Real.Real two)
 
                     numberTwo =
                         ComplexNumbers.ComplexNumber
                             (Real.Real two)
-                            (Imaginary.Imaginary three)
+                            (Imaginary.Imaginary <| Real.Real three)
 
                     conjugateOne =
                         ComplexNumbers.conjugate numberOne
@@ -188,12 +188,12 @@ suite =
                     numberOne =
                         ComplexNumbers.ComplexNumber
                             (Real.Real one)
-                            (Imaginary.Imaginary two)
+                            (Imaginary.Imaginary <| Real.Real two)
 
                     numberTwo =
                         ComplexNumbers.ComplexNumber
                             (Real.Real two)
-                            (Imaginary.Imaginary three)
+                            (Imaginary.Imaginary <| Real.Real three)
 
                     conjugateOne =
                         ComplexNumbers.conjugate numberOne
@@ -221,7 +221,7 @@ suite =
                     testValue =
                         ComplexNumbers.ComplexNumber
                             (Real.Real real)
-                            (Imaginary.Imaginary imaginary)
+                            (Imaginary.Imaginary <| Real.Real imaginary)
 
                     conjugate =
                         ComplexNumbers.conjugate testValue
@@ -244,7 +244,7 @@ suite =
                     testValue =
                         ComplexNumbers.ComplexNumber
                             (Real.Real real)
-                            (Imaginary.Imaginary imaginary)
+                            (Imaginary.Imaginary <| Real.Real imaginary)
 
                     reciprocal =
                         ComplexNumbers.divide ComplexNumbers.one testValue
@@ -276,12 +276,12 @@ suite =
                     z =
                         ComplexNumbers.ComplexNumber
                             (Real.Real real)
-                            (Imaginary.Imaginary imaginary)
+                            (Imaginary.Imaginary <| Real.Real imaginary)
 
                     w =
                         ComplexNumbers.ComplexNumber
                             (Real.Real real)
-                            (Imaginary.Imaginary imaginary)
+                            (Imaginary.Imaginary <| Real.Real imaginary)
 
                     zDividedByW =
                         ComplexNumbers.divide z w
@@ -324,7 +324,7 @@ suite =
                     z =
                         ComplexNumbers.ComplexNumber
                             (Real.Real real)
-                            (Imaginary.Imaginary imaginary)
+                            (Imaginary.Imaginary <| Real.Real imaginary)
 
                     zLength =
                         ComplexNumbers.modulus z
@@ -341,7 +341,7 @@ suite =
                     cartesianTestValue =
                         ComplexNumbers.ComplexNumber
                             (Real.Real real)
-                            (Imaginary.Imaginary imaginary)
+                            (Imaginary.Imaginary <| Real.Real imaginary)
 
                     polarTestValue =
                         ComplexNumbers.convertFromCartesianToPolar cartesianTestValue
@@ -418,11 +418,11 @@ suite =
             \_ ->
                 let
                     complexNumberDividend =
-                        ComplexNumbers.ComplexNumber (Real.Real 2) (Imaginary.Imaginary 0)
+                        ComplexNumbers.ComplexNumber (Real.Real 2) (Imaginary.Imaginary Real.zero)
                             |> ComplexNumbers.convertFromCartesianToPolar
 
                     complexNumberDivisor =
-                        ComplexNumbers.ComplexNumber (Real.Real 1) (Imaginary.Imaginary 1)
+                        ComplexNumbers.ComplexNumber (Real.Real 1) (Imaginary.Imaginary Real.one)
                             |> ComplexNumbers.convertFromCartesianToPolar
 
                     quotient =
@@ -440,7 +440,7 @@ suite =
                     expected =
                         ComplexNumbers.ComplexNumber
                             (Real.Real (quotientMod * Basics.cos quotientPhase))
-                            (Imaginary.Imaginary (quotientMod * Basics.sin quotientPhase))
+                            (Imaginary.Imaginary <| Real.Real (quotientMod * Basics.sin quotientPhase))
                 in
                 Expect.equal quotientCartesian expected
         , Test.fuzz2
@@ -473,7 +473,7 @@ suite =
                     complexNumber =
                         ComplexNumbers.ComplexNumber
                             (Real.Real one)
-                            (Imaginary.Imaginary two)
+                            (Imaginary.Imaginary <| Real.Real two)
 
                     printedComplexNumber =
                         ComplexNumbers.print complexNumber

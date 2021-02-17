@@ -15,7 +15,7 @@ module Real exposing
     , andMap
     , andThen
     , equal
-    , float, parseReal, positiveOrNegativeFloat
+    , float, parseReal, positiveOrNegativeFloat, print
     )
 
 {-| A module for Real numbers
@@ -188,7 +188,7 @@ andThen :
     -> Real a
     -> Real b
 andThen f (Real previousReal) =
-    Real <| real <| f previousReal
+    f previousReal
 
 
 {-| Equality of Real Numbers
@@ -354,3 +354,11 @@ parseReal =
         |. Parser.keyword "Real.Real"
         |. Parser.spaces
         |= positiveOrNegativeFloat
+
+
+{-| Print Real Number
+-}
+print : Real Float -> String
+print (Real rl) =
+    "Real.Real "
+        ++ String.fromFloat rl

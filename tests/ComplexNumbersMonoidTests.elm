@@ -20,7 +20,7 @@ suite =
             \real imaginary ->
                 let
                     expected =
-                        ComplexNumbers.ComplexNumber (Real.Real real) (Imaginary.Imaginary imaginary)
+                        ComplexNumbers.ComplexNumber (Real.Real real) (Imaginary.Imaginary <| Real.Real imaginary)
 
                     (CommutativeMonoid.CommutativeMonoid monoid) =
                         ComplexNumbers.sumCommutativeMonoid
@@ -38,17 +38,17 @@ suite =
                     a =
                         ComplexNumbers.ComplexNumber
                             (Real.Real one)
-                            (Imaginary.Imaginary two)
+                            (Imaginary.Imaginary <| Real.Real two)
 
                     b =
                         ComplexNumbers.ComplexNumber
                             (Real.Real two)
-                            (Imaginary.Imaginary three)
+                            (Imaginary.Imaginary <| Real.Real three)
 
                     c =
                         ComplexNumbers.ComplexNumber
                             (Real.Real one)
-                            (Imaginary.Imaginary three)
+                            (Imaginary.Imaginary <| Real.Real three)
 
                     expected =
                         ComplexNumbers.add (ComplexNumbers.add a b) c
@@ -69,7 +69,7 @@ suite =
             \real imaginary ->
                 let
                     expected =
-                        ComplexNumbers.ComplexNumber (Real.Real real) (Imaginary.Imaginary imaginary)
+                        ComplexNumbers.ComplexNumber (Real.Real real) (Imaginary.Imaginary <| Real.Real imaginary)
 
                     (CommutativeMonoid.CommutativeMonoid monoid) =
                         ComplexNumbers.productCommutativeMonoid
@@ -89,17 +89,17 @@ suite =
                     a =
                         ComplexNumbers.ComplexNumber
                             (Real.Real one)
-                            (Imaginary.Imaginary two)
+                            (Imaginary.Imaginary <| Real.Real two)
 
                     b =
                         ComplexNumbers.ComplexNumber
                             (Real.Real two)
-                            (Imaginary.Imaginary three)
+                            (Imaginary.Imaginary <| Real.Real three)
 
                     c =
                         ComplexNumbers.ComplexNumber
                             (Real.Real one)
-                            (Imaginary.Imaginary three)
+                            (Imaginary.Imaginary <| Real.Real three)
 
                     expected =
                         ComplexNumbers.multiply (ComplexNumbers.multiply a b) c
