@@ -23,7 +23,7 @@ suite =
                         f a =
                             ComplexNumbers.ComplexNumber
                                 (Real.Real <| a * 2)
-                                (Imaginary.Imaginary <| a * 2)
+                                (Imaginary.Imaginary <| Real.Real <| a * 2)
 
                         leftSide =
                             ComplexNumbers.andThen
@@ -59,12 +59,12 @@ suite =
                         f a =
                             ComplexNumbers.ComplexNumber
                                 (Real.Real <| a * 2)
-                                (Imaginary.Imaginary <| a * 2)
+                                (Imaginary.Imaginary <| Real.Real <| a * 2)
 
                         g a =
                             ComplexNumbers.ComplexNumber
                                 (Real.Real <| a * 3)
-                                (Imaginary.Imaginary <| a * 3)
+                                (Imaginary.Imaginary <| Real.Real <| a * 3)
 
                         leftSide =
                             ComplexNumbers.andThen

@@ -15,6 +15,8 @@ module Real exposing
     , andMap
     , andThen
     , equal
+    , print
+    , parseReal
     )
 
 {-| A module for Real numbers
@@ -58,6 +60,12 @@ module Real exposing
 
 @docs equal
 
+
+# Read and Print
+
+@docs print
+@docs parseReal
+
 -}
 
 import AbelianGroup
@@ -70,6 +78,7 @@ import Field
 import Float.Extra
 import Group
 import Monoid
+import Parser exposing ((|.), (|=))
 import Ring
 import Semigroup
 import Typeclasses.Classes.Equality
@@ -144,8 +153,8 @@ divide (Real realDividend) (Real realDivisor) =
 {-| Negate a Real number
 -}
 negate : Real number -> Real number
-negate rl =
-    Real -(real rl)
+negate (Real rl) =
+    Real -rl
 
 
 {-| Extracts the value of a Real number
@@ -186,7 +195,7 @@ andThen :
     -> Real a
     -> Real b
 andThen f (Real previousReal) =
-    Real <| real <| f previousReal
+    f previousReal
 
 
 {-| Equality of Real Numbers
@@ -323,3 +332,42 @@ commutativeDivisionRing =
 field : Field.Field (Real Float)
 field =
     Field.Field commutativeDivisionRing
+
+
+float : Parser.Parser Float
+float =
+    Parser.number
+        { int = Just toFloat
+        , hex = Nothing
+        , octal = Nothing
+        , binary = Nothing
+        , float = Just identity
+        }
+
+
+positiveOrNegativeFloat : Parser.Parser Float
+positiveOrNegativeFloat =
+    Parser.oneOf
+        [ Parser.succeed Basics.negate
+            |. Parser.symbol "-"
+            |= float
+        , float
+        ]
+
+
+{-| Parse Real Number
+-}
+parseReal : Parser.Parser (Real Float)
+parseReal =
+    Parser.succeed Real
+        |. Parser.keyword "Real.Real"
+        |. Parser.spaces
+        |= positiveOrNegativeFloat
+
+
+{-| Print Real Number
+-}
+print : Real Float -> String
+print (Real rl) =
+    "Real.Real "
+        ++ String.fromFloat rl

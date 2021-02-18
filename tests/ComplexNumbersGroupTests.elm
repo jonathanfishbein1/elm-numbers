@@ -21,7 +21,7 @@ suite =
                     complexNumber =
                         ComplexNumbers.ComplexNumber
                             (Real.Real one)
-                            (Imaginary.Imaginary two)
+                            (Imaginary.Imaginary <| Real.Real two)
 
                     inversePlusA =
                         ComplexNumbers.sumGroup.monoid.semigroup
@@ -40,15 +40,15 @@ suite =
                         == ComplexNumbers.sumGroup.monoid.identity
                     )
         , Test.fuzz2
-            (Fuzz.floatRange 1 10)
-            (Fuzz.floatRange 1 10)
+            (Fuzz.map Real.Real (Fuzz.floatRange 1 10))
+            (Fuzz.map Real.Real (Fuzz.floatRange 1 10))
             "tests Complex Number has an multiplicative inverse"
           <|
             \one two ->
                 let
                     complexNumber =
                         ComplexNumbers.ComplexNumber
-                            (Real.Real one)
+                            one
                             (Imaginary.Imaginary two)
 
                     inversePlusA =

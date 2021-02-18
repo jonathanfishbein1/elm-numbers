@@ -23,17 +23,17 @@ suite =
                     a =
                         ComplexNumbers.ComplexNumber
                             (Real.Real one)
-                            (Imaginary.Imaginary two)
+                            (Imaginary.Imaginary <| Real.Real two)
 
                     b =
                         ComplexNumbers.ComplexNumber
                             (Real.Real two)
-                            (Imaginary.Imaginary three)
+                            (Imaginary.Imaginary <| Real.Real three)
 
                     c =
                         ComplexNumbers.ComplexNumber
                             (Real.Real one)
-                            (Imaginary.Imaginary three)
+                            (Imaginary.Imaginary <| Real.Real three)
 
                     semigroup =
                         ComplexNumbers.sumSemigroup
@@ -56,12 +56,12 @@ suite =
                     a =
                         ComplexNumbers.ComplexNumber
                             (Real.Real one)
-                            (Imaginary.Imaginary two)
+                            (Imaginary.Imaginary <| Real.Real two)
 
                     b =
                         ComplexNumbers.ComplexNumber
                             (Real.Real two)
-                            (Imaginary.Imaginary one)
+                            (Imaginary.Imaginary <| Real.Real one)
 
                     (CommutativeSemigroup.CommutativeSemigroup semigroup) =
                         ComplexNumbers.sumCommutativeSemigroup
@@ -85,12 +85,12 @@ suite =
                     a =
                         ComplexNumbers.ComplexNumber
                             (Real.Real one)
-                            (Imaginary.Imaginary two)
+                            (Imaginary.Imaginary <| Real.Real two)
 
                     b =
                         ComplexNumbers.ComplexNumber
                             (Real.Real two)
-                            (Imaginary.Imaginary three)
+                            (Imaginary.Imaginary <| Real.Real three)
 
                     testValueOne =
                         ComplexNumbers.multiply a b
@@ -101,26 +101,26 @@ suite =
                 testValueOne
                     |> Expect.equal testValueTwo
         , Test.fuzz3
-            (Fuzz.floatRange -10 10)
-            (Fuzz.floatRange -10 10)
-            (Fuzz.floatRange -10 10)
+            (Fuzz.map Real.Real (Fuzz.floatRange -10 10))
+            (Fuzz.map Real.Real (Fuzz.floatRange -10 10))
+            (Fuzz.map Real.Real (Fuzz.floatRange -10 10))
             "tests ComplexNumbers multiplication is associative"
           <|
             \one two three ->
                 let
                     a =
                         ComplexNumbers.ComplexNumber
-                            (Real.Real one)
+                            one
                             (Imaginary.Imaginary two)
 
                     b =
                         ComplexNumbers.ComplexNumber
-                            (Real.Real two)
+                            two
                             (Imaginary.Imaginary three)
 
                     c =
                         ComplexNumbers.ComplexNumber
-                            (Real.Real one)
+                            one
                             (Imaginary.Imaginary three)
 
                     testValueOne =

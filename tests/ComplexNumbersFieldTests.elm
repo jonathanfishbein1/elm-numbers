@@ -21,12 +21,12 @@ suite =
                     testValue =
                         ComplexNumbers.ComplexNumber
                             (Real.Real real)
-                            (Imaginary.Imaginary imaginary)
+                            (Imaginary.Imaginary <| Real.Real imaginary)
 
                     expected =
                         ComplexNumbers.ComplexNumber
                             (Real.Real <| 2 * real)
-                            (Imaginary.Imaginary <| 2 * imaginary)
+                            (Imaginary.Imaginary <| Real.Real <| 2 * imaginary)
                 in
                 ComplexNumbers.add testValue testValue
                     |> Expect.equal expected
@@ -41,12 +41,12 @@ suite =
                     a =
                         ComplexNumbers.ComplexNumber
                             (Real.Real one)
-                            (Imaginary.Imaginary two)
+                            (Imaginary.Imaginary <| Real.Real two)
 
                     b =
                         ComplexNumbers.ComplexNumber
                             (Real.Real two)
-                            (Imaginary.Imaginary three)
+                            (Imaginary.Imaginary <| Real.Real three)
 
                     testValueOne =
                         ComplexNumbers.add a b
@@ -67,17 +67,17 @@ suite =
                     a =
                         ComplexNumbers.ComplexNumber
                             (Real.Real one)
-                            (Imaginary.Imaginary two)
+                            (Imaginary.Imaginary <| Real.Real two)
 
                     b =
                         ComplexNumbers.ComplexNumber
                             (Real.Real two)
-                            (Imaginary.Imaginary three)
+                            (Imaginary.Imaginary <| Real.Real three)
 
                     c =
                         ComplexNumbers.ComplexNumber
                             (Real.Real one)
-                            (Imaginary.Imaginary three)
+                            (Imaginary.Imaginary <| Real.Real three)
 
                     testValueOne =
                         ComplexNumbers.add (ComplexNumbers.add a b) c
@@ -97,31 +97,31 @@ suite =
                     testValue =
                         ComplexNumbers.ComplexNumber
                             (Real.Real real)
-                            (Imaginary.Imaginary imaginary)
+                            (Imaginary.Imaginary <| Real.Real imaginary)
                 in
                 ComplexNumbers.add testValue ComplexNumbers.zero
                     |> Expect.equal testValue
         , Test.fuzz3
-            (Fuzz.floatRange -10 10)
-            (Fuzz.floatRange -10 10)
-            (Fuzz.floatRange -10 10)
+            (Fuzz.map Real.Real (Fuzz.floatRange -10 10))
+            (Fuzz.map Real.Real (Fuzz.floatRange -10 10))
+            (Fuzz.map Real.Real (Fuzz.floatRange -10 10))
             "tests ComplexNumbers multiplication distributes over addition"
           <|
             \one two three ->
                 let
                     a =
                         ComplexNumbers.ComplexNumber
-                            (Real.Real one)
+                            one
                             (Imaginary.Imaginary two)
 
                     b =
                         ComplexNumbers.ComplexNumber
-                            (Real.Real two)
+                            two
                             (Imaginary.Imaginary three)
 
                     c =
                         ComplexNumbers.ComplexNumber
-                            (Real.Real one)
+                            one
                             (Imaginary.Imaginary three)
 
                     testValueOne =
@@ -143,7 +143,7 @@ suite =
             \real imaginary ->
                 let
                     testValue =
-                        ComplexNumbers.ComplexNumber (Real.Real real) (Imaginary.Imaginary imaginary)
+                        ComplexNumbers.ComplexNumber (Real.Real real) (Imaginary.Imaginary <| Real.Real imaginary)
 
                     zero =
                         ComplexNumbers.zero

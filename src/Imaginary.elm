@@ -7,7 +7,10 @@ module Imaginary exposing
     , map
     , pure
     , andMap
+    , andThen
     , equal
+    , parseImaginary
+    , print
     )
 
 {-| A module for Imaginary numbers
@@ -35,47 +38,55 @@ module Imaginary exposing
 @docs map
 @docs pure
 @docs andMap
+@docs andThen
 
 #Equality
 
 @docs equal
 
+
+# Read and Print
+
+@docs parseImaginary
+@docs print
+
 -}
 
-import Float.Extra
+import Parser exposing ((|.), (|=))
+import Real
 import Typeclasses.Classes.Equality
 
 
-{-| Imaginary portion
+{-| Imaginary number
 -}
 type Imaginary i
-    = Imaginary i
+    = Imaginary (Real.Real i)
 
 
 {-| i
 -}
 i : Imaginary number
 i =
-    Imaginary 1
+    Imaginary Real.one
 
 
 {-| zero
 -}
 zero : Imaginary number
 zero =
-    Imaginary 0
+    Imaginary Real.zero
 
 
 {-| Negate an Imaginary number
 -}
 negate : Imaginary number -> Imaginary number
 negate imag =
-    Imaginary -(imaginary imag)
+    Imaginary (Real.negate (imaginary imag))
 
 
 {-| Extracts the value of an Imaginary number
 -}
-imaginary : Imaginary a -> a
+imaginary : Imaginary a -> Real.Real a
 imaginary (Imaginary imag) =
     imag
 
@@ -84,14 +95,16 @@ imaginary (Imaginary imag) =
 -}
 map : (a -> b) -> Imaginary a -> Imaginary b
 map f (Imaginary r) =
-    Imaginary <| f r
+    Real.map f r
+        |> Imaginary
 
 
 {-| Place a value in the minimal Imaginary context
 -}
 pure : a -> Imaginary a
 pure a =
-    Imaginary a
+    Real.Real a
+        |> Imaginary
 
 
 {-| Apply for Imaginary representaiton applicative
@@ -101,7 +114,18 @@ andMap :
     -> Imaginary (a -> b)
     -> Imaginary b
 andMap (Imaginary imag) (Imaginary fImag) =
-    Imaginary <| fImag imag
+    Real.andMap imag fImag
+        |> Imaginary
+
+
+{-| Monadic bind for Imaginary Number representaiton
+-}
+andThen :
+    (a -> Imaginary b)
+    -> Imaginary a
+    -> Imaginary b
+andThen f (Imaginary (Real.Real previousReal)) =
+    f previousReal
 
 
 {-| Equality of Imaginary Numbers
@@ -111,7 +135,7 @@ equalImplementation :
     -> Imaginary Float
     -> Bool
 equalImplementation (Imaginary realOne) (Imaginary realTwo) =
-    Float.Extra.equalWithin 0.000000001 realOne realTwo
+    Real.equal.eq realOne realTwo
 
 
 {-| `Equal` type for `Imaginary`.
@@ -119,3 +143,21 @@ equalImplementation (Imaginary realOne) (Imaginary realTwo) =
 equal : Typeclasses.Classes.Equality.Equality (Imaginary Float)
 equal =
     Typeclasses.Classes.Equality.eq equalImplementation
+
+
+{-| Parse Imaginary
+-}
+parseImaginary : Parser.Parser (Imaginary Float)
+parseImaginary =
+    Parser.succeed Imaginary
+        |. Parser.keyword "Imaginary.Imaginary"
+        |. Parser.spaces
+        |= Real.parseReal
+
+
+{-| Print Imaginary Number
+-}
+print : Imaginary Float -> String
+print (Imaginary rl) =
+    "Imaginary.Imaginary "
+        ++ Real.print rl
