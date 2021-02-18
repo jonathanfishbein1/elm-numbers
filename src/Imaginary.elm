@@ -48,7 +48,7 @@ import Real
 import Typeclasses.Classes.Equality
 
 
-{-| Imaginary portion
+{-| Imaginary number
 -}
 type Imaginary i
     = Imaginary (Real.Real i)
@@ -109,7 +109,7 @@ andMap (Imaginary imag) (Imaginary fImag) =
         |> Imaginary
 
 
-{-| Monadic bind for Real Number representaiton
+{-| Monadic bind for Imaginary Number representaiton
 -}
 andThen :
     (a -> Imaginary b)
@@ -136,6 +136,8 @@ equal =
     Typeclasses.Classes.Equality.eq equalImplementation
 
 
+{-| Parse Imaginary
+-}
 parseImaginary : Parser.Parser (Imaginary Float)
 parseImaginary =
     Parser.succeed Imaginary
@@ -144,7 +146,7 @@ parseImaginary =
         |= Real.parseReal
 
 
-{-| Print Real Number
+{-| Print Imaginary Number
 -}
 print : Imaginary Float -> String
 print (Imaginary rl) =
