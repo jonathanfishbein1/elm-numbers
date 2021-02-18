@@ -7,8 +7,10 @@ module Imaginary exposing
     , map
     , pure
     , andMap
+    , andThen
     , equal
-    , andThen, parseImaginary, print
+    , parseImaginary
+    , print
     )
 
 {-| A module for Imaginary numbers
@@ -36,10 +38,17 @@ module Imaginary exposing
 @docs map
 @docs pure
 @docs andMap
+@docs andThen
 
 #Equality
 
 @docs equal
+
+
+# Read and Print
+
+@docs parseImaginary
+@docs print
 
 -}
 
