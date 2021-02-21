@@ -12,16 +12,16 @@ suite : Test.Test
 suite =
     Test.describe "The Group abstraction"
         [ Test.fuzz2
-            Fuzz.int
-            Fuzz.int
+            (Fuzz.map Real.Real Fuzz.int)
+            (Fuzz.map Real.Real Fuzz.int)
             "tests Complex Number sum group has an inverse"
           <|
             \one two ->
                 let
                     complexNumber =
                         ComplexNumbers.ComplexNumber
-                            (Real.Real one)
-                            (Imaginary.Imaginary <| Real.Real two)
+                            one
+                            (Imaginary.Imaginary two)
 
                     inversePlusA =
                         ComplexNumbers.sumGroup.monoid.semigroup

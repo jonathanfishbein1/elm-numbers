@@ -13,14 +13,14 @@ suite : Test.Test
 suite =
     Test.describe "The ComplexNumbers module"
         [ Test.fuzz2
-            Fuzz.float
-            Fuzz.float
+            (Fuzz.map Real.Real Fuzz.float)
+            (Fuzz.map Real.Real Fuzz.float)
             "tests ComplexNumber empty or identity value for sum"
           <|
             \real imaginary ->
                 let
                     expected =
-                        ComplexNumbers.ComplexNumber (Real.Real real) (Imaginary.Imaginary <| Real.Real imaginary)
+                        ComplexNumbers.ComplexNumber real (Imaginary.Imaginary imaginary)
 
                     (CommutativeMonoid.CommutativeMonoid monoid) =
                         ComplexNumbers.sumCommutativeMonoid
@@ -28,27 +28,27 @@ suite =
                 monoid.semigroup expected monoid.identity
                     |> Expect.equal expected
         , Test.fuzz3
-            Fuzz.int
-            Fuzz.int
-            Fuzz.int
+            (Fuzz.map Real.Real Fuzz.int)
+            (Fuzz.map Real.Real Fuzz.int)
+            (Fuzz.map Real.Real Fuzz.int)
             "tests monoidally add"
           <|
             \one two three ->
                 let
                     a =
                         ComplexNumbers.ComplexNumber
-                            (Real.Real one)
-                            (Imaginary.Imaginary <| Real.Real two)
+                            one
+                            (Imaginary.Imaginary two)
 
                     b =
                         ComplexNumbers.ComplexNumber
-                            (Real.Real two)
-                            (Imaginary.Imaginary <| Real.Real three)
+                            two
+                            (Imaginary.Imaginary three)
 
                     c =
                         ComplexNumbers.ComplexNumber
-                            (Real.Real one)
-                            (Imaginary.Imaginary <| Real.Real three)
+                            one
+                            (Imaginary.Imaginary three)
 
                     expected =
                         ComplexNumbers.add (ComplexNumbers.add a b) c
@@ -62,14 +62,14 @@ suite =
                 monoid.concat listOfMonoids
                     |> Expect.equal expected
         , Test.fuzz2
-            (Fuzz.floatRange -10 10)
-            (Fuzz.floatRange -10 10)
+            (Fuzz.map Real.Real (Fuzz.floatRange -10 10))
+            (Fuzz.map Real.Real (Fuzz.floatRange -10 10))
             "tests ComplexNumber empty or identity value for product"
           <|
             \real imaginary ->
                 let
                     expected =
-                        ComplexNumbers.ComplexNumber (Real.Real real) (Imaginary.Imaginary <| Real.Real imaginary)
+                        ComplexNumbers.ComplexNumber real (Imaginary.Imaginary imaginary)
 
                     (CommutativeMonoid.CommutativeMonoid monoid) =
                         ComplexNumbers.productCommutativeMonoid
