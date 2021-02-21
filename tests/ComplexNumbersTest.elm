@@ -175,22 +175,22 @@ suite =
                 in
                 Expect.equal sumOfconjugateOneconjugateTwo conjugateOfsumOfNumberOneNumberTwo
         , Test.fuzz3
-            Fuzz.int
-            Fuzz.int
-            Fuzz.int
+            (Fuzz.map Real.Real Fuzz.int)
+            (Fuzz.map Real.Real Fuzz.int)
+            (Fuzz.map Real.Real Fuzz.int)
             "tests conjugation respects multiplication"
           <|
             \one two three ->
                 let
                     numberOne =
                         ComplexNumbers.ComplexNumber
-                            (Real.Real one)
-                            (Imaginary.Imaginary <| Real.Real two)
+                            one
+                            (Imaginary.Imaginary two)
 
                     numberTwo =
                         ComplexNumbers.ComplexNumber
-                            (Real.Real two)
-                            (Imaginary.Imaginary <| Real.Real three)
+                            two
+                            (Imaginary.Imaginary three)
 
                     conjugateOne =
                         ComplexNumbers.conjugate numberOne

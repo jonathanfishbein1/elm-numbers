@@ -2,6 +2,7 @@ module Real exposing
     ( Real(..)
     , zero
     , one
+    , negativeOne
     , real
     , negate
     , add, multiply, divide, greaterThan
@@ -31,6 +32,7 @@ module Real exposing
 
 @docs zero
 @docs one
+@docs negativeOne
 
 
 # Arithmetic operations on real numbers
@@ -102,6 +104,13 @@ zero =
 one : Real number
 one =
     Real 1
+
+
+{-| one
+-}
+negativeOne : Real number
+negativeOne =
+    Real -1
 
 
 {-| Add two complex numbers together

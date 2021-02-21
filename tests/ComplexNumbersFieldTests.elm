@@ -31,22 +31,22 @@ suite =
                 ComplexNumbers.add testValue testValue
                     |> Expect.equal expected
         , Test.fuzz3
-            Fuzz.float
-            Fuzz.float
-            Fuzz.float
+            (Fuzz.map Real.Real Fuzz.float)
+            (Fuzz.map Real.Real Fuzz.float)
+            (Fuzz.map Real.Real Fuzz.float)
             "tests ComplexNumbers addition is commutative"
           <|
             \one two three ->
                 let
                     a =
                         ComplexNumbers.ComplexNumber
-                            (Real.Real one)
-                            (Imaginary.Imaginary <| Real.Real two)
+                            one
+                            (Imaginary.Imaginary two)
 
                     b =
                         ComplexNumbers.ComplexNumber
-                            (Real.Real two)
-                            (Imaginary.Imaginary <| Real.Real three)
+                            two
+                            (Imaginary.Imaginary three)
 
                     testValueOne =
                         ComplexNumbers.add a b
@@ -57,27 +57,27 @@ suite =
                 testValueOne
                     |> Expect.equal testValueTwo
         , Test.fuzz3
-            Fuzz.int
-            Fuzz.int
-            Fuzz.int
+            (Fuzz.map Real.Real Fuzz.int)
+            (Fuzz.map Real.Real Fuzz.int)
+            (Fuzz.map Real.Real Fuzz.int)
             "tests ComplexNumbers addition is associative"
           <|
             \one two three ->
                 let
                     a =
                         ComplexNumbers.ComplexNumber
-                            (Real.Real one)
-                            (Imaginary.Imaginary <| Real.Real two)
+                            one
+                            (Imaginary.Imaginary two)
 
                     b =
                         ComplexNumbers.ComplexNumber
-                            (Real.Real two)
-                            (Imaginary.Imaginary <| Real.Real three)
+                            two
+                            (Imaginary.Imaginary three)
 
                     c =
                         ComplexNumbers.ComplexNumber
-                            (Real.Real one)
-                            (Imaginary.Imaginary <| Real.Real three)
+                            one
+                            (Imaginary.Imaginary three)
 
                     testValueOne =
                         ComplexNumbers.add (ComplexNumbers.add a b) c
@@ -88,16 +88,16 @@ suite =
                 testValueOne
                     |> Expect.equal testValueTwo
         , Test.fuzz2
-            Fuzz.float
-            Fuzz.float
+            (Fuzz.map Real.Real Fuzz.float)
+            (Fuzz.map Real.Real Fuzz.float)
             "tests ComplexNumbers zero is identity"
           <|
             \real imaginary ->
                 let
                     testValue =
                         ComplexNumbers.ComplexNumber
-                            (Real.Real real)
-                            (Imaginary.Imaginary <| Real.Real imaginary)
+                            real
+                            (Imaginary.Imaginary imaginary)
                 in
                 ComplexNumbers.add testValue ComplexNumbers.zero
                     |> Expect.equal testValue
@@ -136,14 +136,14 @@ suite =
                 in
                 Expect.true "equal" result
         , Test.fuzz2
-            Fuzz.int
-            Fuzz.int
+            (Fuzz.map Real.Real Fuzz.int)
+            (Fuzz.map Real.Real Fuzz.int)
             "tests ComplexNumbers subtract"
           <|
             \real imaginary ->
                 let
                     testValue =
-                        ComplexNumbers.ComplexNumber (Real.Real real) (Imaginary.Imaginary <| Real.Real imaginary)
+                        ComplexNumbers.ComplexNumber real (Imaginary.Imaginary imaginary)
 
                     zero =
                         ComplexNumbers.zero

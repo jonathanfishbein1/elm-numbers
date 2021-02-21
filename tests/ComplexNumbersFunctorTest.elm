@@ -13,16 +13,16 @@ suite : Test.Test
 suite =
     Test.describe "The ComplexNumbers Functor abstraction"
         [ Test.fuzz2
-            Fuzz.int
-            Fuzz.int
+            (Fuzz.map Real.Real Fuzz.int)
+            (Fuzz.map Real.Real Fuzz.int)
             "tests ComplexNumbers map identity"
           <|
             \one two ->
                 let
                     complexNumber =
                         ComplexNumbers.ComplexNumber
-                            (Real.Real one)
-                            (Imaginary.Imaginary <| Real.Real two)
+                            one
+                            (Imaginary.Imaginary two)
 
                     mapResult =
                         ComplexNumbers.map identity complexNumber
@@ -47,16 +47,16 @@ suite =
                 mapResult
                     |> Expect.equal complexNumber
         , Test.fuzz2
-            Fuzz.int
-            Fuzz.int
+            (Fuzz.map Real.Real Fuzz.int)
+            (Fuzz.map Real.Real Fuzz.int)
             "tests ComplexNumbers Functor composition"
           <|
             \one two ->
                 let
                     complexNumber =
                         ComplexNumbers.ComplexNumber
-                            (Real.Real one)
-                            (Imaginary.Imaginary <| Real.Real two)
+                            one
+                            (Imaginary.Imaginary two)
 
                     f =
                         (*) 2

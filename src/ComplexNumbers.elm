@@ -3,6 +3,8 @@ module ComplexNumbers exposing
     , i
     , zero
     , one
+    , negativeOne
+    , negativeI
     , real
     , imaginary
     , add
@@ -46,6 +48,8 @@ module ComplexNumbers exposing
 @docs i
 @docs zero
 @docs one
+@docs negativeOne
+@docs negativeI
 
 
 # Arithmetic operations on complex numbers
@@ -135,11 +139,25 @@ one =
     ComplexNumber Real.one Imaginary.zero
 
 
+{-| one
+-}
+negativeOne : ComplexNumber number
+negativeOne =
+    ComplexNumber Real.negativeOne Imaginary.zero
+
+
 {-| The number i
 -}
 i : ComplexNumber number
 i =
     ComplexNumber Real.zero Imaginary.i
+
+
+{-| The number i
+-}
+negativeI : ComplexNumber number
+negativeI =
+    ComplexNumber Real.zero Imaginary.negativeI
 
 
 {-| Extracts the real part of a complex number
