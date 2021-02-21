@@ -2,6 +2,7 @@ module Imaginary exposing
     ( Imaginary(..)
     , i
     , zero
+    , negativeI
     , imaginary
     , negate
     , map
@@ -25,6 +26,7 @@ module Imaginary exposing
 
 @docs i
 @docs zero
+@docs negativeI
 
 
 # Arithmetic operations on complex numbers
@@ -68,6 +70,13 @@ type Imaginary i
 i : Imaginary number
 i =
     Imaginary Real.one
+
+
+{-| i
+-}
+negativeI : Imaginary number
+negativeI =
+    Imaginary Real.negativeOne
 
 
 {-| zero
