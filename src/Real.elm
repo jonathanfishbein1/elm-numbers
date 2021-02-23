@@ -5,7 +5,7 @@ module Real exposing
     , negativeOne
     , real
     , negate
-    , add, multiply, divide, greaterThan
+    , add, multiply, divide, greaterThan, power
     , sumSemigroup, productSemigroup, sumCommutativeSemigroup, productCommutativeSemigroup
     , sumMonoid, productMonoid, sumCommutativeMonoid, productCommutativeMonoid
     , sumGroup, productGroup, abelianGroup
@@ -18,7 +18,6 @@ module Real exposing
     , equal
     , print
     , parseReal
-    , power
     )
 
 {-| A module for Real numbers
@@ -44,7 +43,7 @@ module Real exposing
 
 # Binary operations
 
-@docs add, multiply, divide, greaterThan
+@docs add, multiply, divide, greaterThan, power
 
 
 # Semigroup, Monoid, Group, Ring, Field, Functor, Applicative Functor, and Monad

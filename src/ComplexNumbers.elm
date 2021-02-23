@@ -5,6 +5,7 @@ module ComplexNumbers exposing
     , one
     , negativeOne
     , negativeI
+    , eToTheIPiOver4
     , real
     , imaginary
     , add
@@ -33,7 +34,6 @@ module ComplexNumbers exposing
     , print
     , printiNotation
     , printiNotationWithRounding
-    , eToTheIPiOver4
     )
 
 {-| A module for complex numbers
@@ -51,6 +51,7 @@ module ComplexNumbers exposing
 @docs one
 @docs negativeOne
 @docs negativeI
+@docs eToTheIPiOver4
 
 
 # Arithmetic operations on complex numbers
@@ -161,6 +162,8 @@ negativeI =
     ComplexNumber Real.zero Imaginary.negativeI
 
 
+{-| The number e^(i\*pi/4)
+-}
 eToTheIPiOver4 : ComplexNumber Float
 eToTheIPiOver4 =
     euler (Real.Real (Basics.pi / 4))
