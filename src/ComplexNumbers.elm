@@ -33,6 +33,7 @@ module ComplexNumbers exposing
     , print
     , printiNotation
     , printiNotationWithRounding
+    , eToTheIPiOver4
     )
 
 {-| A module for complex numbers
@@ -158,6 +159,11 @@ i =
 negativeI : ComplexNumber number
 negativeI =
     ComplexNumber Real.zero Imaginary.negativeI
+
+
+eToTheIPiOver4 : ComplexNumber Float
+eToTheIPiOver4 =
+    euler (Real.Real (Basics.pi / 4))
 
 
 {-| Extracts the real part of a complex number

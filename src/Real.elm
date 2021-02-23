@@ -18,6 +18,7 @@ module Real exposing
     , equal
     , print
     , parseReal
+    , power
     )
 
 {-| A module for Real numbers
@@ -139,6 +140,18 @@ multiply :
 multiply (Real realOne) (Real realTwo) =
     realOne
         * realTwo
+        |> Real
+
+
+{-| Multiply two complex numbers together
+-}
+power :
+    Real Float
+    -> Real Float
+    -> Real Float
+power (Real rl) (Real exp) =
+    rl
+        ^ exp
         |> Real
 
 
