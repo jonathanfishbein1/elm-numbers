@@ -5,7 +5,7 @@ module Real exposing
     , negativeOne
     , real
     , negate
-    , add, multiply, divide, greaterThan
+    , add, multiply, divide, greaterThan, power
     , sumSemigroup, productSemigroup, sumCommutativeSemigroup, productCommutativeSemigroup
     , sumMonoid, productMonoid, sumCommutativeMonoid, productCommutativeMonoid
     , sumGroup, productGroup, abelianGroup
@@ -43,7 +43,7 @@ module Real exposing
 
 # Binary operations
 
-@docs add, multiply, divide, greaterThan
+@docs add, multiply, divide, greaterThan, power
 
 
 # Semigroup, Monoid, Group, Ring, Field, Functor, Applicative Functor, and Monad
@@ -133,12 +133,24 @@ sumEmpty =
 {-| Multiply two complex numbers together
 -}
 multiply :
-    Real Float
-    -> Real Float
-    -> Real Float
+    Real number
+    -> Real number
+    -> Real number
 multiply (Real realOne) (Real realTwo) =
     realOne
         * realTwo
+        |> Real
+
+
+{-| Multiply two complex numbers together
+-}
+power :
+    Real Float
+    -> Real Float
+    -> Real Float
+power (Real rl) (Real exp) =
+    rl
+        ^ exp
         |> Real
 
 
@@ -240,7 +252,7 @@ sumSemigroup =
 
 {-| Semigroup for Real Numbers with addition as the operation
 -}
-productSemigroup : Semigroup.Semigroup (Real Float)
+productSemigroup : Semigroup.Semigroup (Real number)
 productSemigroup =
     multiply
 
@@ -254,7 +266,7 @@ sumCommutativeSemigroup =
 
 {-| Semigroup for Real Numbers with multiplicatoin as the operation
 -}
-productCommutativeSemigroup : CommutativeSemigroup.CommutativeSemigroup (Real Float)
+productCommutativeSemigroup : CommutativeSemigroup.CommutativeSemigroup (Real number)
 productCommutativeSemigroup =
     CommutativeSemigroup.CommutativeSemigroup productSemigroup
 
@@ -268,7 +280,7 @@ sumMonoid =
 
 {-| Monoid for Real Numbers with multiplication as the operation
 -}
-productMonoid : Monoid.Monoid (Real Float)
+productMonoid : Monoid.Monoid (Real number)
 productMonoid =
     Monoid.semigroupAndIdentity productSemigroup productEmpty
 
@@ -282,7 +294,7 @@ sumCommutativeMonoid =
 
 {-| Monoid for Real Numbers with multiplication as the operation
 -}
-productCommutativeMonoid : CommutativeMonoid.CommutativeMonoid (Real Float)
+productCommutativeMonoid : CommutativeMonoid.CommutativeMonoid (Real number)
 productCommutativeMonoid =
     CommutativeMonoid.CommutativeMonoid productMonoid
 
