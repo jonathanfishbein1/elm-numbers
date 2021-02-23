@@ -5,6 +5,7 @@ module Imaginary exposing
     , negativeI
     , imaginary
     , negate
+    , multiply
     , map
     , pure
     , andMap
@@ -29,10 +30,15 @@ module Imaginary exposing
 @docs negativeI
 
 
-# Arithmetic operations on complex numbers
+# Arithmetic operations on imaginary numbers
 
 @docs imaginary
 @docs negate
+
+
+# Binary operations
+
+@docs multiply
 
 
 # Semigroup, Monoid, Group, Ring, Field, Functor, Applicative Functor, and Monad
@@ -98,6 +104,17 @@ negate imag =
 imaginary : Imaginary a -> Real.Real a
 imaginary (Imaginary imag) =
     imag
+
+
+{-| Multiply two complex numbers together
+-}
+multiply :
+    Imaginary number
+    -> Imaginary number
+    -> Imaginary number
+multiply (Imaginary imaginaryOne) (Imaginary imaginaryTwo) =
+    Real.multiply imaginaryOne imaginaryTwo
+        |> Imaginary
 
 
 {-| Map over anImaginary Imaginary number

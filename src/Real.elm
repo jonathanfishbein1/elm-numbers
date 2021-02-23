@@ -133,9 +133,9 @@ sumEmpty =
 {-| Multiply two complex numbers together
 -}
 multiply :
-    Real Float
-    -> Real Float
-    -> Real Float
+    Real number
+    -> Real number
+    -> Real number
 multiply (Real realOne) (Real realTwo) =
     realOne
         * realTwo
@@ -240,7 +240,7 @@ sumSemigroup =
 
 {-| Semigroup for Real Numbers with addition as the operation
 -}
-productSemigroup : Semigroup.Semigroup (Real Float)
+productSemigroup : Semigroup.Semigroup (Real number)
 productSemigroup =
     multiply
 
@@ -254,7 +254,7 @@ sumCommutativeSemigroup =
 
 {-| Semigroup for Real Numbers with multiplicatoin as the operation
 -}
-productCommutativeSemigroup : CommutativeSemigroup.CommutativeSemigroup (Real Float)
+productCommutativeSemigroup : CommutativeSemigroup.CommutativeSemigroup (Real number)
 productCommutativeSemigroup =
     CommutativeSemigroup.CommutativeSemigroup productSemigroup
 
@@ -268,7 +268,7 @@ sumMonoid =
 
 {-| Monoid for Real Numbers with multiplication as the operation
 -}
-productMonoid : Monoid.Monoid (Real Float)
+productMonoid : Monoid.Monoid (Real number)
 productMonoid =
     Monoid.semigroupAndIdentity productSemigroup productEmpty
 
@@ -282,7 +282,7 @@ sumCommutativeMonoid =
 
 {-| Monoid for Real Numbers with multiplication as the operation
 -}
-productCommutativeMonoid : CommutativeMonoid.CommutativeMonoid (Real Float)
+productCommutativeMonoid : CommutativeMonoid.CommutativeMonoid (Real number)
 productCommutativeMonoid =
     CommutativeMonoid.CommutativeMonoid productMonoid
 
