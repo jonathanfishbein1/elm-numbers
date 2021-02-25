@@ -13,6 +13,7 @@ module Internal.ComplexNumbers exposing
     , product
     , productEmpty
     , pure
+    , roots
     , theta
     )
 
@@ -77,6 +78,14 @@ divide (ComplexNumber (Modulus roOne) (Theta thetaOne)) (ComplexNumber (Modulus 
 power : number -> ComplexNumber number -> ComplexNumber number
 power n (ComplexNumber (Modulus roOne) (Theta thetaOne)) =
     ComplexNumber (Modulus <| roOne ^ n) (Theta <| n * thetaOne)
+
+
+{-| Calculate the roots of a complex number
+-}
+roots : Int -> ComplexNumber Float -> List (ComplexNumber Float)
+roots n (ComplexNumber (Modulus roOne) (Theta thetaOne)) =
+    List.map (\k -> ComplexNumber (Modulus <| roOne ^ (1 / Basics.toFloat n)) (Theta <| (1 / Basics.toFloat n) * (thetaOne + (Basics.toFloat k * 2 * Basics.pi))))
+        (List.range 1 n)
 
 
 {-| Map over a complex number in polar representation

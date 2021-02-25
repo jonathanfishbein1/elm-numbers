@@ -34,6 +34,7 @@ module ComplexNumbers exposing
     , print
     , printiNotation
     , printiNotationWithRounding
+    , roots
     )
 
 {-| A module for complex numbers
@@ -360,6 +361,14 @@ power : Float -> ComplexNumber Float -> ComplexNumber Float
 power n complexNumber =
     Internal.ComplexNumbers.power n (convertFromCartesianToPolar complexNumber)
         |> convertFromPolarToCartesian
+
+
+{-| Calculate the roots of a complex number
+-}
+roots : Int -> ComplexNumber Float -> List (ComplexNumber Float)
+roots n complexNumber =
+    Internal.ComplexNumbers.roots n (convertFromCartesianToPolar complexNumber)
+        |> List.map convertFromPolarToCartesian
 
 
 {-| Semigroup for Complex Numbers with addition as the operation
