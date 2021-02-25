@@ -528,6 +528,7 @@ suite =
 
                     cubeRoot =
                         ComplexNumbers.roots 3 number
+                            |> List.map (ComplexNumbers.round 4)
 
                     expected =
                         [ ComplexNumbers.ComplexNumber (Real.Real -0.7937) (Imaginary.Imaginary (Real.Real 0.7937))

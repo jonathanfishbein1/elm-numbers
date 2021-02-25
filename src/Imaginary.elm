@@ -13,6 +13,7 @@ module Imaginary exposing
     , equal
     , parseImaginary
     , print
+    , round
     )
 
 {-| A module for Imaginary numbers
@@ -169,6 +170,12 @@ equalImplementation (Imaginary realOne) (Imaginary realTwo) =
 equal : Typeclasses.Classes.Equality.Equality (Imaginary Float)
 equal =
     Typeclasses.Classes.Equality.eq equalImplementation
+
+
+round : Int -> Imaginary Float -> Imaginary Float
+round numberOfDigits (Imaginary num) =
+    Real.round numberOfDigits num
+        |> Imaginary
 
 
 {-| Parse Imaginary

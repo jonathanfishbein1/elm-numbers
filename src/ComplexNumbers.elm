@@ -34,7 +34,7 @@ module ComplexNumbers exposing
     , print
     , printiNotation
     , printiNotationWithRounding
-    , roots
+    , roots, round
     )
 
 {-| A module for complex numbers
@@ -488,6 +488,11 @@ field =
 euler : Real.Real Float -> ComplexNumber Float
 euler (Real.Real theta) =
     ComplexNumber (Real.Real <| Basics.cos theta) (Imaginary.Imaginary <| Real.Real <| Basics.sin theta)
+
+
+round : Int -> ComplexNumber Float -> ComplexNumber Float
+round numberOfDigits (ComplexNumber rl img) =
+    ComplexNumber (Real.round numberOfDigits rl) (Imaginary.round numberOfDigits img)
 
 
 {-| Print ComplexNumber

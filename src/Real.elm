@@ -18,6 +18,7 @@ module Real exposing
     , equal
     , print
     , parseReal
+    , round
     )
 
 {-| A module for Real numbers
@@ -82,6 +83,7 @@ import Group
 import Monoid
 import Parser exposing ((|.), (|=))
 import Ring
+import Round
 import Semigroup
 import Typeclasses.Classes.Equality
 
@@ -241,6 +243,12 @@ equal =
 greaterThan : Real number -> Real number -> Bool
 greaterThan (Real realOne) (Real realTwo) =
     realOne <= realTwo
+
+
+round : Int -> Real Float -> Real Float
+round numberOfDigits (Real num) =
+    Round.roundNum numberOfDigits num
+        |> Real
 
 
 {-| Semigroup for Real Numbers with addition as the operation
