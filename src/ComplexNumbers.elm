@@ -507,22 +507,8 @@ print (ComplexNumber rl imag) =
 {-| Print ComplexNumber i notation with rounding function
 -}
 printiNotationWithRounding : (Float -> String) -> ComplexNumber Float -> String
-printiNotationWithRounding toString (ComplexNumber (Real.Real rl) (Imaginary.Imaginary (Real.Real imag))) =
-    (if rl < 0 then
-        "−"
-
-     else
-        "+"
-    )
-        ++ toString (Basics.abs rl)
-        ++ (if imag < 0 then
-                "−"
-
-            else
-                "+"
-           )
-        ++ toString (Basics.abs imag)
-        ++ "i"
+printiNotationWithRounding toString (ComplexNumber rl imag) =
+    Real.printiNotationWithRounding toString rl ++ Imaginary.printiNotationWithRounding toString imag
 
 
 {-| Print ComplexNumber i notation with two decimal places

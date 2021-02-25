@@ -13,7 +13,7 @@ module Imaginary exposing
     , equal
     , parseImaginary
     , print
-    , round
+    , printiNotationWithRounding, round
     )
 
 {-| A module for Imaginary numbers
@@ -63,6 +63,7 @@ module Imaginary exposing
 
 import Parser exposing ((|.), (|=))
 import Real
+import Round
 import Typeclasses.Classes.Equality
 
 
@@ -194,3 +195,10 @@ print : Imaginary Float -> String
 print (Imaginary rl) =
     "Imaginary.Imaginary "
         ++ Real.print rl
+
+
+{-| Print Real i notation with rounding function
+-}
+printiNotationWithRounding : (Float -> String) -> Imaginary Float -> String
+printiNotationWithRounding toString (Imaginary img) =
+    Real.printiNotationWithRounding toString img ++ "i"

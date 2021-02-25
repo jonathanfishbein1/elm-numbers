@@ -18,7 +18,7 @@ module Real exposing
     , equal
     , print
     , parseReal
-    , round
+    , printiNotationWithRounding, round
     )
 
 {-| A module for Real numbers
@@ -400,3 +400,16 @@ print : Real Float -> String
 print (Real rl) =
     "Real.Real "
         ++ String.fromFloat rl
+
+
+{-| Print Real i notation with rounding function
+-}
+printiNotationWithRounding : (Float -> String) -> Real Float -> String
+printiNotationWithRounding toString (Real rl) =
+    (if rl < 0 then
+        "−"
+
+     else
+        "+"
+    )
+        ++ toString (Basics.abs rl)
