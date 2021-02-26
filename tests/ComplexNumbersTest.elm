@@ -516,4 +516,25 @@ suite =
                         ComplexNumbers.euler (Real.negate one)
                 in
                 Expect.equal complexNumberConjugate complexNumberNegativeTheta
+        , Test.test
+            "tests ComplexNumbers root"
+          <|
+            \_ ->
+                let
+                    number =
+                        ComplexNumbers.ComplexNumber
+                            Real.one
+                            Imaginary.i
+
+                    cubeRoot =
+                        ComplexNumbers.roots 3 number
+                            |> List.map (ComplexNumbers.round 4)
+
+                    expected =
+                        [ ComplexNumbers.ComplexNumber (Real.Real -0.7937) (Imaginary.Imaginary (Real.Real 0.7937))
+                        , ComplexNumbers.ComplexNumber (Real.Real -0.2905) (Imaginary.Imaginary (Real.Real -1.0842))
+                        , ComplexNumbers.ComplexNumber (Real.Real 1.0842) (Imaginary.Imaginary (Real.Real 0.2905))
+                        ]
+                in
+                Expect.equalLists cubeRoot expected
         ]

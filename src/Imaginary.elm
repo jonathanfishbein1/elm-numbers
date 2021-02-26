@@ -5,6 +5,7 @@ module Imaginary exposing
     , negativeI
     , imaginary
     , negate
+    , round
     , multiply
     , map
     , pure
@@ -13,6 +14,7 @@ module Imaginary exposing
     , equal
     , parseImaginary
     , print
+    , printNotationWithRounding
     )
 
 {-| A module for Imaginary numbers
@@ -34,6 +36,7 @@ module Imaginary exposing
 
 @docs imaginary
 @docs negate
+@docs round
 
 
 # Binary operations
@@ -57,6 +60,7 @@ module Imaginary exposing
 
 @docs parseImaginary
 @docs print
+@docs printNotationWithRounding
 
 -}
 
@@ -171,6 +175,14 @@ equal =
     Typeclasses.Classes.Equality.eq equalImplementation
 
 
+{-| Round Imaginary Number
+-}
+round : Int -> Imaginary Float -> Imaginary Float
+round numberOfDigits (Imaginary num) =
+    Real.round numberOfDigits num
+        |> Imaginary
+
+
 {-| Parse Imaginary
 -}
 parseImaginary : Parser.Parser (Imaginary Float)
@@ -187,3 +199,10 @@ print : Imaginary Float -> String
 print (Imaginary rl) =
     "Imaginary.Imaginary "
         ++ Real.print rl
+
+
+{-| Print Real i notation with rounding function
+-}
+printNotationWithRounding : (Float -> String) -> Imaginary Float -> String
+printNotationWithRounding toString (Imaginary img) =
+    Real.printNotationWithRounding toString img ++ "i"

@@ -19,6 +19,8 @@ module ComplexNumbers exposing
     , convertFromCartesianToPolar
     , convertFromPolarToCartesian
     , euler
+    , round
+    , roots
     , sumSemigroup, productSemigroup, sumCommutativeSemigroup, productCommutativeSemigroup
     , sumMonoid, productMonoid, sumCommutativeMonoid, productCommutativeMonoid
     , sumGroup, productGroup, abelianGroup
@@ -33,7 +35,7 @@ module ComplexNumbers exposing
     , read
     , print
     , printiNotation
-    , printiNotationWithRounding
+    , printNotationWithRounding
     )
 
 {-| A module for complex numbers
@@ -69,6 +71,8 @@ module ComplexNumbers exposing
 @docs convertFromCartesianToPolar
 @docs convertFromPolarToCartesian
 @docs euler
+@docs round
+@docs roots
 
 
 # Semigroup, Monoid, Group, Ring, Field, Functor, Applicative Functor, and Monad
@@ -94,7 +98,7 @@ module ComplexNumbers exposing
 @docs read
 @docs print
 @docs printiNotation
-@docs printiNotationWithRounding
+@docs printNotationWithRounding
 
 -}
 
@@ -362,6 +366,14 @@ power n complexNumber =
         |> convertFromPolarToCartesian
 
 
+{-| Calculate the roots of a complex number
+-}
+roots : Int -> ComplexNumber Float -> List (ComplexNumber Float)
+roots n complexNumber =
+    Internal.ComplexNumbers.roots n (convertFromCartesianToPolar complexNumber)
+        |> List.map convertFromPolarToCartesian
+
+
 {-| Semigroup for Complex Numbers with addition as the operation
 -}
 sumSemigroup : Semigroup.Semigroup (ComplexNumber number)
@@ -481,6 +493,13 @@ euler (Real.Real theta) =
     ComplexNumber (Real.Real <| Basics.cos theta) (Imaginary.Imaginary <| Real.Real <| Basics.sin theta)
 
 
+{-| Round Complex Number
+-}
+round : Int -> ComplexNumber Float -> ComplexNumber Float
+round numberOfDigits (ComplexNumber rl img) =
+    ComplexNumber (Real.round numberOfDigits rl) (Imaginary.round numberOfDigits img)
+
+
 {-| Print ComplexNumber
 -}
 print : ComplexNumber Float -> String
@@ -492,30 +511,16 @@ print (ComplexNumber rl imag) =
 
 {-| Print ComplexNumber i notation with rounding function
 -}
-printiNotationWithRounding : (Float -> String) -> ComplexNumber Float -> String
-printiNotationWithRounding toString (ComplexNumber (Real.Real rl) (Imaginary.Imaginary (Real.Real imag))) =
-    (if rl < 0 then
-        "−"
-
-     else
-        "+"
-    )
-        ++ toString (Basics.abs rl)
-        ++ (if imag < 0 then
-                "−"
-
-            else
-                "+"
-           )
-        ++ toString (Basics.abs imag)
-        ++ "i"
+printNotationWithRounding : (Float -> String) -> ComplexNumber Float -> String
+printNotationWithRounding toString (ComplexNumber rl imag) =
+    Real.printNotationWithRounding toString rl ++ Imaginary.printNotationWithRounding toString imag
 
 
 {-| Print ComplexNumber i notation with two decimal places
 -}
 printiNotation : ComplexNumber Float -> String
 printiNotation =
-    printiNotationWithRounding (Round.round 2)
+    printNotationWithRounding (Round.round 2)
 
 
 {-| Read ComplexNumber
