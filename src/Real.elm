@@ -5,6 +5,7 @@ module Real exposing
     , negativeOne
     , real
     , negate
+    , round
     , add, multiply, divide, greaterThan, power
     , sumSemigroup, productSemigroup, sumCommutativeSemigroup, productCommutativeSemigroup
     , sumMonoid, productMonoid, sumCommutativeMonoid, productCommutativeMonoid
@@ -18,7 +19,7 @@ module Real exposing
     , equal
     , print
     , parseReal
-    , printiNotationWithRounding, round
+    , printNotationWithRounding
     )
 
 {-| A module for Real numbers
@@ -40,6 +41,7 @@ module Real exposing
 
 @docs real
 @docs negate
+@docs round
 
 
 # Binary operations
@@ -68,6 +70,7 @@ module Real exposing
 
 @docs print
 @docs parseReal
+@docs printNotationWithRounding
 
 -}
 
@@ -245,6 +248,8 @@ greaterThan (Real realOne) (Real realTwo) =
     realOne <= realTwo
 
 
+{-| Round Real Number
+-}
 round : Int -> Real Float -> Real Float
 round numberOfDigits (Real num) =
     Round.roundNum numberOfDigits num
@@ -404,8 +409,8 @@ print (Real rl) =
 
 {-| Print Real i notation with rounding function
 -}
-printiNotationWithRounding : (Float -> String) -> Real Float -> String
-printiNotationWithRounding toString (Real rl) =
+printNotationWithRounding : (Float -> String) -> Real Float -> String
+printNotationWithRounding toString (Real rl) =
     (if rl < 0 then
         "−"
 
