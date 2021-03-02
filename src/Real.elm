@@ -6,7 +6,7 @@ module Real exposing
     , real
     , negate
     , round
-    , add, multiply, divide, greaterThan, power
+    , add, multiply, divide, greaterThan, power, subtract
     , sumSemigroup, productSemigroup, sumCommutativeSemigroup, productCommutativeSemigroup
     , sumMonoid, productMonoid, sumCommutativeMonoid, productCommutativeMonoid
     , sumGroup, productGroup, abelianGroup
@@ -46,7 +46,7 @@ module Real exposing
 
 # Binary operations
 
-@docs add, multiply, divide, greaterThan, power
+@docs add, multiply, divide, greaterThan, power, subtract
 
 
 # Semigroup, Monoid, Group, Ring, Field, Functor, Applicative Functor, and Monad
@@ -127,6 +127,18 @@ add :
 add (Real realOne) (Real realOneTwo) =
     realOne
         + realOneTwo
+        |> Real
+
+
+{-| Subtract two complex numbers together
+-}
+subtract :
+    Real number
+    -> Real number
+    -> Real number
+subtract (Real realOne) (Real realOneTwo) =
+    realOne
+        - realOneTwo
         |> Real
 
 
