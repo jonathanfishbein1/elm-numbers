@@ -492,14 +492,26 @@ field =
 -}
 euler : Real.Real Float -> ComplexNumber Float
 euler (Real.Real theta) =
-    ComplexNumber (Real.Real <| Basics.cos theta) (Imaginary.Imaginary <| Real.Real <| Basics.sin theta)
+    convertFromPolarToCartesian
+        (Internal.ComplexNumbers.ComplexNumber
+            (Internal.ComplexNumbers.Modulus 1)
+            (Internal.ComplexNumbers.Theta theta)
+        )
 
 
 {-| DeMoivre's equation
 -}
 deMoivre : Real.Real Float -> Int -> ComplexNumber Float
 deMoivre (Real.Real theta) exp =
-    ComplexNumber (Real.Real <| Basics.cos <| Basics.toFloat exp * theta) (Imaginary.Imaginary <| Real.Real <| Basics.sin <| Basics.toFloat exp * theta)
+    convertFromPolarToCartesian
+        (Internal.ComplexNumbers.ComplexNumber
+            (Internal.ComplexNumbers.Modulus 1)
+            (Internal.ComplexNumbers.Theta (Basics.toFloat exp * theta))
+        )
+
+
+
+-- ComplexNumber (Real.Real <| Basics.cos <| Basics.toFloat exp * theta) (Imaginary.Imaginary <| Real.Real <| Basics.sin <| Basics.toFloat exp * theta)
 
 
 {-| Round Complex Number
