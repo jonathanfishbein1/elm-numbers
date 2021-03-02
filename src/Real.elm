@@ -150,9 +150,9 @@ multiply (Real realOne) (Real realTwo) =
 {-| Multiply two complex numbers together
 -}
 power :
-    Real Float
-    -> Real Float
-    -> Real Float
+    Real number
+    -> Real number
+    -> Real number
 power (Real rl) (Real exp) =
     rl
         ^ exp
