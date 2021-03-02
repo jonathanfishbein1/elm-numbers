@@ -120,6 +120,7 @@ import Real
 import Ring
 import Round
 import Semigroup
+import Tuple
 import Typeclasses.Classes.Equality
 
 
@@ -276,6 +277,7 @@ convertFromCartesianToPolar (ComplexNumber (Real.Real rl) (Imaginary.Imaginary (
     let
         polar =
             toPolar ( rl, imag )
+                |> Tuple.mapBoth Real.Real Real.Real
     in
     Internal.ComplexNumbers.ComplexNumber
         (Internal.ComplexNumbers.Modulus <| Tuple.first polar)
@@ -287,7 +289,7 @@ convertFromCartesianToPolar (ComplexNumber (Real.Real rl) (Imaginary.Imaginary (
 convertFromPolarToCartesian :
     Internal.ComplexNumbers.ComplexNumber Float
     -> ComplexNumber Float
-convertFromPolarToCartesian (Internal.ComplexNumbers.ComplexNumber (Internal.ComplexNumbers.Modulus ro) (Internal.ComplexNumbers.Theta theta)) =
+convertFromPolarToCartesian (Internal.ComplexNumbers.ComplexNumber (Internal.ComplexNumbers.Modulus (Real.Real ro)) (Internal.ComplexNumbers.Theta (Real.Real theta))) =
     let
         cartesian =
             fromPolar ( ro, theta )
@@ -491,10 +493,10 @@ field =
 {-| Euler's equation
 -}
 euler : Real.Real Float -> ComplexNumber Float
-euler (Real.Real theta) =
+euler theta =
     convertFromPolarToCartesian
         (Internal.ComplexNumbers.ComplexNumber
-            (Internal.ComplexNumbers.Modulus 1)
+            (Internal.ComplexNumbers.Modulus Real.one)
             (Internal.ComplexNumbers.Theta theta)
         )
 
@@ -505,8 +507,8 @@ deMoivre : Real.Real Float -> Int -> ComplexNumber Float
 deMoivre (Real.Real theta) exp =
     convertFromPolarToCartesian
         (Internal.ComplexNumbers.ComplexNumber
-            (Internal.ComplexNumbers.Modulus 1)
-            (Internal.ComplexNumbers.Theta (Basics.toFloat exp * theta))
+            (Internal.ComplexNumbers.Modulus (Real.Real 1))
+            (Internal.ComplexNumbers.Theta (Real.Real (Basics.toFloat exp * theta)))
         )
 
 

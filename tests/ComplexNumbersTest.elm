@@ -1,5 +1,6 @@
 module ComplexNumbersTest exposing (suite)
 
+import Basics
 import ComplexNumbers exposing (ComplexNumber, imaginary)
 import Expect
 import Fuzz
@@ -349,9 +350,9 @@ suite =
                 in
                 Expect.true "Should be equal" result
         , Test.fuzz3
-            Fuzz.float
-            Fuzz.float
-            Fuzz.float
+            (Fuzz.map Real.Real Fuzz.float)
+            (Fuzz.map Real.Real Fuzz.float)
+            (Fuzz.map Real.Real Fuzz.float)
             "tests ComplexNumbers polar multiplication is commutative"
           <|
             \one two three ->
@@ -375,9 +376,9 @@ suite =
                 testValueOne
                     |> Expect.equal testValueTwo
         , Test.fuzz3
-            (Fuzz.intRange -10 10)
-            (Fuzz.intRange -10 10)
-            (Fuzz.intRange -10 10)
+            (Fuzz.map Real.Real (Fuzz.intRange -10 10))
+            (Fuzz.map Real.Real (Fuzz.intRange -10 10))
+            (Fuzz.map Real.Real (Fuzz.intRange -10 10))
             "tests ComplexNumbers polar multiplication is associative"
           <|
             \one two three ->
@@ -434,13 +435,13 @@ suite =
 
                     expected =
                         ComplexNumbers.ComplexNumber
-                            (Real.Real (quotientMod * Basics.cos quotientPhase))
-                            (Imaginary.Imaginary <| Real.Real (quotientMod * Basics.sin quotientPhase))
+                            (Real.multiply quotientMod (Real.cos quotientPhase))
+                            (Imaginary.Imaginary <| Real.multiply quotientMod (Real.sin quotientPhase))
                 in
                 Expect.equal quotientCartesian expected
         , Test.fuzz2
-            Fuzz.int
-            Fuzz.int
+            (Fuzz.map (Basics.toFloat >> Real.Real) Fuzz.int)
+            (Fuzz.map (Basics.toFloat >> Real.Real) Fuzz.int)
             "tests power"
           <|
             \one two ->

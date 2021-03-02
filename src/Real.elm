@@ -7,6 +7,7 @@ module Real exposing
     , negate
     , round
     , add, multiply, divide, greaterThan, power, subtract
+    , cos, sin
     , sumSemigroup, productSemigroup, sumCommutativeSemigroup, productCommutativeSemigroup
     , sumMonoid, productMonoid, sumCommutativeMonoid, productCommutativeMonoid
     , sumGroup, productGroup, abelianGroup
@@ -47,6 +48,11 @@ module Real exposing
 # Binary operations
 
 @docs add, multiply, divide, greaterThan, power, subtract
+
+
+# Trig
+
+@docs cos, sin
 
 
 # Semigroup, Monoid, Group, Ring, Field, Functor, Applicative Functor, and Monad
@@ -430,3 +436,15 @@ printNotationWithRounding toString (Real rl) =
         "+"
     )
         ++ toString (Basics.abs rl)
+
+
+cos : Real Float -> Real Float
+cos (Real num) =
+    Basics.cos num
+        |> Real
+
+
+sin : Real Float -> Real Float
+sin (Real num) =
+    Basics.sin num
+        |> Real

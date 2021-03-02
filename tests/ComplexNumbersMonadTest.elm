@@ -86,8 +86,16 @@ suite =
                     let
                         f a =
                             Internal.ComplexNumbers.ComplexNumber
-                                (Internal.ComplexNumbers.Modulus <| a * 2)
-                                (Internal.ComplexNumbers.Theta <| a * 2)
+                                (a
+                                    * 2
+                                    |> Real.Real
+                                    |> Internal.ComplexNumbers.Modulus
+                                )
+                                (a
+                                    * 2
+                                    |> Real.Real
+                                    |> Internal.ComplexNumbers.Theta
+                                )
 
                         leftSide =
                             Internal.ComplexNumbers.andThen
@@ -122,13 +130,29 @@ suite =
 
                         f a =
                             Internal.ComplexNumbers.ComplexNumber
-                                (Internal.ComplexNumbers.Modulus <| a * 2)
-                                (Internal.ComplexNumbers.Theta <| a * 2)
+                                (a
+                                    * 2
+                                    |> Real.Real
+                                    |> Internal.ComplexNumbers.Modulus
+                                )
+                                (a
+                                    * 2
+                                    |> Real.Real
+                                    |> Internal.ComplexNumbers.Theta
+                                )
 
                         g a =
                             Internal.ComplexNumbers.ComplexNumber
-                                (Internal.ComplexNumbers.Modulus <| a * 3)
-                                (Internal.ComplexNumbers.Theta <| a * 3)
+                                (a
+                                    * 3
+                                    |> Real.Real
+                                    |> Internal.ComplexNumbers.Modulus
+                                )
+                                (a
+                                    * 3
+                                    |> Real.Real
+                                    |> Internal.ComplexNumbers.Theta
+                                )
 
                         leftSide =
                             Internal.ComplexNumbers.andThen

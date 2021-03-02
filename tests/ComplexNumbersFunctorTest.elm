@@ -30,8 +30,8 @@ suite =
                 mapResult
                     |> Expect.equal complexNumber
         , Test.fuzz2
-            Fuzz.int
-            Fuzz.int
+            (Fuzz.map (Basics.toFloat >> Real.Real) Fuzz.int)
+            (Fuzz.map (Basics.toFloat >> Real.Real) Fuzz.int)
             "tests ComplexNumbers map identity polar representation"
           <|
             \one two ->
@@ -73,8 +73,8 @@ suite =
                 mapResult
                     |> Expect.equal (ComplexNumbers.map f (ComplexNumbers.map g complexNumber))
         , Test.fuzz2
-            Fuzz.int
-            Fuzz.int
+            (Fuzz.map (Basics.toFloat >> Real.Real) Fuzz.int)
+            (Fuzz.map (Basics.toFloat >> Real.Real) Fuzz.int)
             "tests ComplexNumbers Functor composition polar representation"
           <|
             \one two ->

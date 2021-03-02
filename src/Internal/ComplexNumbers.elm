@@ -21,16 +21,17 @@ module Internal.ComplexNumbers exposing
 -}
 
 import Monoid
+import Real
 
 
 type Modulus m
-    = Modulus m
+    = Modulus (Real.Real m)
 
 
 {-| Angle in real-complex plane of modulus
 -}
 type Theta t
-    = Theta t
+    = Theta (Real.Real t)
 
 
 {-| Polar representation of a complex number
@@ -41,14 +42,14 @@ type ComplexNumber a
 
 {-| Extracts the modulus part of a complex number
 -}
-modulus : ComplexNumber a -> a
+modulus : ComplexNumber a -> Real.Real a
 modulus (ComplexNumber (Modulus ro) _) =
     ro
 
 
 {-| Extracts the imaginary part of a complex number
 -}
-theta : ComplexNumber a -> a
+theta : ComplexNumber a -> Real.Real a
 theta (ComplexNumber _ (Theta thta)) =
     thta
 
@@ -61,12 +62,12 @@ multiply :
     -> ComplexNumber number
 multiply (ComplexNumber (Modulus roOne) (Theta thetaOne)) (ComplexNumber (Modulus roTwo) (Theta thetaTwo)) =
     ComplexNumber
-        (roOne
-            * roTwo
+        (Real.multiply roOne
+            roTwo
             |> Modulus
         )
-        (thetaOne
-            + thetaTwo
+        (Real.add thetaOne
+            thetaTwo
             |> Theta
         )
 
@@ -79,12 +80,12 @@ divide :
     -> ComplexNumber Float
 divide (ComplexNumber (Modulus roOne) (Theta thetaOne)) (ComplexNumber (Modulus roTwo) (Theta thetaTwo)) =
     ComplexNumber
-        (roOne
-            / roTwo
+        (Real.divide roOne
+            roTwo
             |> Modulus
         )
-        (thetaOne
-            - thetaTwo
+        (Real.subtract thetaOne
+            thetaTwo
             |> Theta
         )
 
@@ -94,12 +95,14 @@ divide (ComplexNumber (Modulus roOne) (Theta thetaOne)) (ComplexNumber (Modulus 
 power : number -> ComplexNumber number -> ComplexNumber number
 power n (ComplexNumber (Modulus roOne) (Theta thetaOne)) =
     ComplexNumber
-        (roOne
-            ^ n
+        (Real.power roOne
+            (n
+                |> Real.Real
+            )
             |> Modulus
         )
-        (n
-            * thetaOne
+        (Real.multiply (Real.Real n)
+            thetaOne
             |> Theta
         )
 
@@ -111,12 +114,14 @@ roots n (ComplexNumber (Modulus roOne) (Theta thetaOne)) =
     List.map
         (\k ->
             ComplexNumber
-                (roOne
-                    ^ (1 / Basics.toFloat n)
+                (Real.power roOne
+                    ((1 / Basics.toFloat n)
+                        |> Real.Real
+                    )
                     |> Modulus
                 )
-                ((1 / Basics.toFloat n)
-                    * (thetaOne + (Basics.toFloat k * 2 * Basics.pi))
+                (Real.multiply (Real.Real (1 / Basics.toFloat n))
+                    (Real.add thetaOne (Real.Real (Basics.toFloat k * 2 * Basics.pi)))
                     |> Theta
                 )
         )
@@ -128,10 +133,10 @@ roots n (ComplexNumber (Modulus roOne) (Theta thetaOne)) =
 map : (a -> b) -> ComplexNumber a -> ComplexNumber b
 map f (ComplexNumber (Modulus ro) (Theta thta)) =
     ComplexNumber
-        (f ro
+        (Real.map f ro
             |> Modulus
         )
-        (f thta
+        (Real.map f thta
             |> Theta
         )
 
@@ -140,7 +145,15 @@ map f (ComplexNumber (Modulus ro) (Theta thta)) =
 -}
 pure : a -> ComplexNumber a
 pure a =
-    ComplexNumber (Modulus a) (Theta a)
+    ComplexNumber
+        (a
+            |> Real.pure
+            |> Modulus
+        )
+        (a
+            |> Real.pure
+            |> Theta
+        )
 
 
 {-| Apply for Complex Number polar representaiton applicative
@@ -151,10 +164,10 @@ andMap :
     -> ComplexNumber b
 andMap (ComplexNumber (Modulus ro) (Theta thta)) (ComplexNumber (Modulus fRo) (Theta fTheta)) =
     ComplexNumber
-        (fRo ro
+        (Real.andMap ro fRo
             |> Modulus
         )
-        (fTheta thta
+        (Real.andMap thta fTheta
             |> Theta
         )
 
@@ -167,12 +180,10 @@ andThen :
     -> ComplexNumber b
 andThen f (ComplexNumber (Modulus previousModulus) (Theta previousTheta)) =
     ComplexNumber
-        (f previousModulus
-            |> modulus
+        (Real.andThen (f >> modulus) previousModulus
             |> Modulus
         )
-        (f previousTheta
-            |> theta
+        (Real.andThen (f >> theta) previousTheta
             |> Theta
         )
 
@@ -190,7 +201,7 @@ map2 f a b =
 -}
 one : ComplexNumber number
 one =
-    ComplexNumber (Modulus 1) (Theta 0)
+    ComplexNumber (Modulus Real.one) (Theta Real.zero)
 
 
 productEmpty : ComplexNumber number

@@ -118,8 +118,8 @@ suite =
                     in
                     Expect.equal leftSide rightSide
             , Test.fuzz2
-                Fuzz.int
-                Fuzz.int
+                (Fuzz.map (Basics.toFloat >> Real.Real) Fuzz.int)
+                (Fuzz.map (Basics.toFloat >> Real.Real) Fuzz.int)
                 "tests first applicative law for Complex Numbers Polar"
               <|
                 \one two ->
@@ -141,7 +141,7 @@ suite =
                     in
                     Expect.equal cApplied c
             , Test.fuzz
-                Fuzz.int
+                (Fuzz.map (Basics.toFloat >> Real.Real) Fuzz.int)
                 "tests second applicative law for Complex Numbers Polar"
               <|
                 \one ->
@@ -248,8 +248,8 @@ suite =
                 pureFApplyX
                     |> Expect.equal fMapX
         , Test.fuzz2
-            Fuzz.int
-            Fuzz.int
+            (Fuzz.map (Basics.toFloat >> Real.Real) Fuzz.int)
+            (Fuzz.map (Basics.toFloat >> Real.Real) Fuzz.int)
             "tests pure f andMap x equal map f x polar"
           <|
             \one two ->
@@ -326,8 +326,8 @@ suite =
                 pureFApplyX
                     |> Expect.equal (ComplexNumbers.ComplexNumber (Real.Real 0) (Imaginary.Imaginary Real.zero))
         , Test.fuzz2
-            Fuzz.int
-            Fuzz.int
+            (Fuzz.map (Basics.toFloat >> Real.Real) Fuzz.int)
+            (Fuzz.map (Basics.toFloat >> Real.Real) Fuzz.int)
             "tests pure f andMap x equal map f x multiply polar"
           <|
             \one two ->
@@ -336,7 +336,7 @@ suite =
                         Internal.ComplexNumbers.ComplexNumber (Internal.ComplexNumbers.Modulus one) (Internal.ComplexNumbers.Theta two)
 
                     f _ =
-                        Internal.ComplexNumbers.ComplexNumber (Internal.ComplexNumbers.Modulus (*)) (Internal.ComplexNumbers.Theta (+))
+                        Internal.ComplexNumbers.ComplexNumber (Internal.ComplexNumbers.Modulus (Real.Real (*))) (Internal.ComplexNumbers.Theta (Real.Real (+)))
 
                     fMapX =
                         Internal.ComplexNumbers.map f complexNumber
@@ -347,8 +347,8 @@ suite =
                 pureFApplyX
                     |> Expect.equal fMapX
         , Test.fuzz2
-            Fuzz.int
-            Fuzz.int
+            (Fuzz.map (Basics.toFloat >> Real.Real) Fuzz.int)
+            (Fuzz.map (Basics.toFloat >> Real.Real) Fuzz.int)
             "tests pure f andMap x equal map f x multiply divide"
           <|
             \one two ->
@@ -360,8 +360,8 @@ suite =
 
                     f _ =
                         Internal.ComplexNumbers.ComplexNumber
-                            (Internal.ComplexNumbers.Modulus (/))
-                            (Internal.ComplexNumbers.Theta (-))
+                            (Internal.ComplexNumbers.Modulus (Real.Real (/)))
+                            (Internal.ComplexNumbers.Theta (Real.Real (-)))
 
                     fMapX =
                         Internal.ComplexNumbers.map f complexNumber
