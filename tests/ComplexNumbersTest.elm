@@ -1,6 +1,6 @@
 module ComplexNumbersTest exposing (suite)
 
-import ComplexNumbers exposing (imaginary)
+import ComplexNumbers exposing (ComplexNumber, imaginary)
 import Expect
 import Fuzz
 import Imaginary
@@ -537,4 +537,20 @@ suite =
                         ]
                 in
                 Expect.equalLists cubeRoot expected
+        , Test.test
+            "test DeMoivre's equation"
+          <|
+            \_ ->
+                let
+                    testComplexNumber =
+                        ComplexNumbers.deMoivre (Real.Real <| Basics.pi / 6) 2
+
+                    expected =
+                        ComplexNumbers.ComplexNumber (Real.Real (1 / 2)) (Imaginary.Imaginary (Real.Real (Basics.sqrt 3 / 2)))
+                in
+                Expect.true "(e^30*i)^2 == 0.5 + (sqrt 3/2)i"
+                    (ComplexNumbers.equal.eq
+                        testComplexNumber
+                        expected
+                    )
         ]

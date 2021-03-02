@@ -21,6 +21,7 @@ module ComplexNumbers exposing
     , euler
     , round
     , roots
+    , deMoivre
     , sumSemigroup, productSemigroup, sumCommutativeSemigroup, productCommutativeSemigroup
     , sumMonoid, productMonoid, sumCommutativeMonoid, productCommutativeMonoid
     , sumGroup, productGroup, abelianGroup
@@ -73,6 +74,7 @@ module ComplexNumbers exposing
 @docs euler
 @docs round
 @docs roots
+@docs deMoivre
 
 
 # Semigroup, Monoid, Group, Ring, Field, Functor, Applicative Functor, and Monad
@@ -491,6 +493,13 @@ field =
 euler : Real.Real Float -> ComplexNumber Float
 euler (Real.Real theta) =
     ComplexNumber (Real.Real <| Basics.cos theta) (Imaginary.Imaginary <| Real.Real <| Basics.sin theta)
+
+
+{-| DeMoivre's equation
+-}
+deMoivre : Real.Real Float -> Int -> ComplexNumber Float
+deMoivre (Real.Real theta) exp =
+    ComplexNumber (Real.Real <| Basics.cos <| Basics.toFloat exp * theta) (Imaginary.Imaginary <| Real.Real <| Basics.sin <| Basics.toFloat exp * theta)
 
 
 {-| Round Complex Number
