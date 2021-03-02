@@ -60,7 +60,15 @@ multiply :
     -> ComplexNumber number
     -> ComplexNumber number
 multiply (ComplexNumber (Modulus roOne) (Theta thetaOne)) (ComplexNumber (Modulus roTwo) (Theta thetaTwo)) =
-    ComplexNumber (Modulus <| roOne * roTwo) (Theta <| thetaOne + thetaTwo)
+    ComplexNumber
+        (roOne
+            * roTwo
+            |> Modulus
+        )
+        (thetaOne
+            + thetaTwo
+            |> Theta
+        )
 
 
 {-| Divide two complex numbers in polar representations together
@@ -70,21 +78,48 @@ divide :
     -> ComplexNumber Float
     -> ComplexNumber Float
 divide (ComplexNumber (Modulus roOne) (Theta thetaOne)) (ComplexNumber (Modulus roTwo) (Theta thetaTwo)) =
-    ComplexNumber (Modulus <| roOne / roTwo) (Theta <| thetaOne - thetaTwo)
+    ComplexNumber
+        (roOne
+            / roTwo
+            |> Modulus
+        )
+        (thetaOne
+            - thetaTwo
+            |> Theta
+        )
 
 
 {-| Calculate a complex number raised to a power
 -}
 power : number -> ComplexNumber number -> ComplexNumber number
 power n (ComplexNumber (Modulus roOne) (Theta thetaOne)) =
-    ComplexNumber (Modulus <| roOne ^ n) (Theta <| n * thetaOne)
+    ComplexNumber
+        (roOne
+            ^ n
+            |> Modulus
+        )
+        (n
+            * thetaOne
+            |> Theta
+        )
 
 
 {-| Calculate the roots of a complex number
 -}
 roots : Int -> ComplexNumber Float -> List (ComplexNumber Float)
 roots n (ComplexNumber (Modulus roOne) (Theta thetaOne)) =
-    List.map (\k -> ComplexNumber (Modulus <| roOne ^ (1 / Basics.toFloat n)) (Theta <| (1 / Basics.toFloat n) * (thetaOne + (Basics.toFloat k * 2 * Basics.pi))))
+    List.map
+        (\k ->
+            ComplexNumber
+                (roOne
+                    ^ (1 / Basics.toFloat n)
+                    |> Modulus
+                )
+                ((1 / Basics.toFloat n)
+                    * (thetaOne + (Basics.toFloat k * 2 * Basics.pi))
+                    |> Theta
+                )
+        )
         (List.range 1 n)
 
 
@@ -92,7 +127,13 @@ roots n (ComplexNumber (Modulus roOne) (Theta thetaOne)) =
 -}
 map : (a -> b) -> ComplexNumber a -> ComplexNumber b
 map f (ComplexNumber (Modulus ro) (Theta thta)) =
-    ComplexNumber (Modulus <| f ro) (Theta <| f thta)
+    ComplexNumber
+        (f ro
+            |> Modulus
+        )
+        (f thta
+            |> Theta
+        )
 
 
 {-| Place a value in the minimal Complex Number polar context
@@ -109,7 +150,13 @@ andMap :
     -> ComplexNumber (a -> b)
     -> ComplexNumber b
 andMap (ComplexNumber (Modulus ro) (Theta thta)) (ComplexNumber (Modulus fRo) (Theta fTheta)) =
-    ComplexNumber (Modulus <| fRo ro) (Theta <| fTheta thta)
+    ComplexNumber
+        (fRo ro
+            |> Modulus
+        )
+        (fTheta thta
+            |> Theta
+        )
 
 
 {-| Monadic andThen for Complex Number polar representaiton
@@ -120,8 +167,14 @@ andThen :
     -> ComplexNumber b
 andThen f (ComplexNumber (Modulus previousModulus) (Theta previousTheta)) =
     ComplexNumber
-        (Modulus <| modulus <| f previousModulus)
-        (Theta <| theta <| f previousTheta)
+        (f previousModulus
+            |> modulus
+            |> Modulus
+        )
+        (f previousTheta
+            |> theta
+            |> Theta
+        )
 
 
 map2 :
