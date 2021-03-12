@@ -1,7 +1,7 @@
 module ComplexNumbersTest exposing (suite)
 
 import Basics
-import ComplexNumbers exposing (ComplexNumber, imaginary)
+import ComplexNumbers
 import Expect
 import Fuzz
 import Imaginary
