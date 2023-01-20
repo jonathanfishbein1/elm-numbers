@@ -13,8 +13,8 @@ suite : Test.Test
 suite =
     Test.describe "The ComplexNumbers module"
         [ Test.fuzz2
-            (Fuzz.map Real.Real Fuzz.float)
-            (Fuzz.map Real.Real Fuzz.float)
+            (Fuzz.map Real.Real Fuzz.niceFloat)
+            (Fuzz.map Real.Real Fuzz.niceFloat)
             "tests ComplexNumber empty or identity value for sum"
           <|
             \real imaginary ->
@@ -77,7 +77,11 @@ suite =
                     result =
                         ComplexNumbers.equal.eq (monoid.semigroup expected monoid.identity) expected
                 in
-                Expect.true "equal" result
+                if result then
+                    Expect.pass
+
+                else
+                    Expect.fail "equal"
         , Test.fuzz3
             (Fuzz.map Real.Real (Fuzz.floatRange -10 10))
             (Fuzz.map Real.Real (Fuzz.floatRange -10 10))
@@ -113,5 +117,9 @@ suite =
                     result =
                         ComplexNumbers.equal.eq (monoid.concat listOfMonoids) expected
                 in
-                Expect.true "equal" result
+                if result then
+                    Expect.pass
+
+                else
+                    Expect.fail "equal"
         ]

@@ -12,8 +12,8 @@ suite : Test.Test
 suite =
     Test.describe "The ComplexNumbers Field"
         [ Test.fuzz2
-            Fuzz.float
-            Fuzz.float
+            Fuzz.niceFloat
+            Fuzz.niceFloat
             "tests ComplexNumbers add"
           <|
             \real imaginary ->
@@ -31,9 +31,9 @@ suite =
                 ComplexNumbers.add testValue testValue
                     |> Expect.equal expected
         , Test.fuzz3
-            (Fuzz.map Real.Real Fuzz.float)
-            (Fuzz.map Real.Real Fuzz.float)
-            (Fuzz.map Real.Real Fuzz.float)
+            (Fuzz.map Real.Real Fuzz.niceFloat)
+            (Fuzz.map Real.Real Fuzz.niceFloat)
+            (Fuzz.map Real.Real Fuzz.niceFloat)
             "tests ComplexNumbers addition is commutative"
           <|
             \one two three ->
@@ -88,8 +88,8 @@ suite =
                 testValueOne
                     |> Expect.equal testValueTwo
         , Test.fuzz2
-            (Fuzz.map Real.Real Fuzz.float)
-            (Fuzz.map Real.Real Fuzz.float)
+            (Fuzz.map Real.Real Fuzz.niceFloat)
+            (Fuzz.map Real.Real Fuzz.niceFloat)
             "tests ComplexNumbers zero is identity"
           <|
             \real imaginary ->
@@ -134,7 +134,11 @@ suite =
                     result =
                         ComplexNumbers.equal.eq testValueOne testValueTwo
                 in
-                Expect.true "equal" result
+                if result then
+                    Expect.pass
+
+                else
+                    Expect.fail "equal"
         , Test.fuzz2
             (Fuzz.map Real.Real Fuzz.int)
             (Fuzz.map Real.Real Fuzz.int)

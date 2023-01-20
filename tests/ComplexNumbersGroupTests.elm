@@ -33,12 +33,16 @@ suite =
                             complexNumber
                             (ComplexNumbers.sumGroup.inverse complexNumber)
                 in
-                Expect.true "All equal identity"
-                    (inversePlusA
+                if
+                    inversePlusA
                         == ComplexNumbers.sumGroup.monoid.identity
                         && aPlusInverse
                         == ComplexNumbers.sumGroup.monoid.identity
-                    )
+                then
+                    Expect.pass
+
+                else
+                    Expect.fail "All equal identity"
         , Test.fuzz2
             (Fuzz.map Real.Real (Fuzz.floatRange 1 10))
             (Fuzz.map Real.Real (Fuzz.floatRange 1 10))
@@ -61,8 +65,12 @@ suite =
                             complexNumber
                             (ComplexNumbers.productGroup.inverse complexNumber)
                 in
-                Expect.true "All equal identity"
-                    (ComplexNumbers.equal.eq inversePlusA ComplexNumbers.productGroup.monoid.identity
+                if
+                    ComplexNumbers.equal.eq inversePlusA ComplexNumbers.productGroup.monoid.identity
                         && ComplexNumbers.equal.eq aPlusInverse ComplexNumbers.productGroup.monoid.identity
-                    )
+                then
+                    Expect.pass
+
+                else
+                    Expect.fail "All equal identity"
         ]

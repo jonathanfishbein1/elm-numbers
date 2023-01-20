@@ -14,16 +14,16 @@ suite : Test.Test
 suite =
     Test.describe "The ComplexNumbers module"
         [ Test.fuzz2
-            Fuzz.float
-            Fuzz.float
+            (Fuzz.map Real.Real (Fuzz.floatRange -10 10))
+            (Fuzz.map Real.Real (Fuzz.floatRange -10 10))
             "tests ComplexNumbers modulus"
           <|
             \one two ->
                 let
                     number =
                         ComplexNumbers.ComplexNumber
-                            (Real.Real one)
-                            (Imaginary.Imaginary <| Real.Real two)
+                            one
+                            (Imaginary.Imaginary two)
 
                     (ComplexNumbers.ComplexNumber (Real.Real real) (Imaginary.Imaginary (Real.Real imaginary))) =
                         number
@@ -36,7 +36,11 @@ suite =
                             |> sqrt
                             |> Real.Real
                 in
-                Expect.true "modules equals length " (Real.equal.eq (ComplexNumbers.modulus number) length)
+                if Real.equal.eq (ComplexNumbers.modulus number) length then
+                    Expect.pass
+
+                else
+                    Expect.fail "modules equals length"
         , Test.fuzz3
             (Fuzz.map Real.Real (Fuzz.floatRange -10 10))
             (Fuzz.map Real.Real (Fuzz.floatRange -10 10))
@@ -68,7 +72,11 @@ suite =
                         ComplexNumbers.multiply numberOne numberTwo
                             |> ComplexNumbers.modulus
                 in
-                Expect.true "modules equals length " (Real.equal.eq productLengthOneLengthTwo modulesOfProductOfNumberOneNumberTwo)
+                if Real.equal.eq productLengthOneLengthTwo modulesOfProductOfNumberOneNumberTwo then
+                    Expect.pass
+
+                else
+                    Expect.fail "modules equals length"
         , Test.fuzz3
             (Fuzz.map Real.Real (Fuzz.floatRange -10 10))
             (Fuzz.map Real.Real (Fuzz.floatRange -10 10))
@@ -102,8 +110,8 @@ suite =
                 in
                 modulesOfSumOfNumberOneNumberTwo |> Expect.atMost sumLengthOneLengthTwo
         , Test.fuzz2
-            (Fuzz.map Real.Real Fuzz.float)
-            (Fuzz.map Real.Real Fuzz.float)
+            (Fuzz.map Real.Real Fuzz.niceFloat)
+            (Fuzz.map Real.Real Fuzz.niceFloat)
             "tests ComplexNumbers conjugate"
           <|
             \real imaginary ->
@@ -121,8 +129,8 @@ suite =
                 ComplexNumbers.conjugate testValue
                     |> Expect.equal expected
         , Test.fuzz2
-            (Fuzz.map Real.Real Fuzz.float)
-            (Fuzz.map Real.Real Fuzz.float)
+            (Fuzz.map Real.Real Fuzz.niceFloat)
+            (Fuzz.map Real.Real Fuzz.niceFloat)
             "tests ComplexNumbers conjugate of conjugate equals original CompleNumber"
           <|
             \real imaginary ->
@@ -210,8 +218,8 @@ suite =
                 in
                 Expect.equal productOfconjugateOneconjugateTwo conjugateOfproductOfNumberOneNumberTwo
         , Test.fuzz2
-            (Fuzz.map Real.Real Fuzz.float)
-            (Fuzz.map Real.Real Fuzz.float)
+            (Fuzz.map Real.Real (Fuzz.floatRange -10 10))
+            (Fuzz.map Real.Real (Fuzz.floatRange -10 10))
             "tests complex number multipled by conjugate equals modulus squared"
           <|
             \real imaginary ->
@@ -261,9 +269,11 @@ suite =
                     conjugateDividedByModulesSquared =
                         ComplexNumbers.divide conjugate modulusSquaredComplexNumber
                 in
-                Expect.true
-                    "reciprecal and conjugate divided by modules squared equal"
-                    (ComplexNumbers.equal.eq reciprocal conjugateDividedByModulesSquared)
+                if ComplexNumbers.equal.eq reciprocal conjugateDividedByModulesSquared then
+                    Expect.pass
+
+                else
+                    Expect.fail "reciprecal and conjugate divided by modules squared equal"
         , Test.fuzz2
             (Fuzz.map Real.Real (Fuzz.floatRange 1 10))
             (Fuzz.map Real.Real (Fuzz.floatRange 1 10))
@@ -296,9 +306,11 @@ suite =
                     zConjugateDividedBywConjugate =
                         ComplexNumbers.divide zConjugate wConjugate
                 in
-                Expect.true
-                    "conjugate of z divided by w equals the conjugate of z divided by the conjugate of w"
-                    (ComplexNumbers.equal.eq conjugateZDividedByW zConjugateDividedBywConjugate)
+                if ComplexNumbers.equal.eq conjugateZDividedByW zConjugateDividedBywConjugate then
+                    Expect.pass
+
+                else
+                    Expect.fail "conjugate of z divided by w equals the conjugate of z divided by the conjugate of w"
         , Test.test
             "length of z is 0 if z real and imaginary parts are 0"
           <|
@@ -348,11 +360,15 @@ suite =
                     result =
                         ComplexNumbers.equal.eq cartesianTestValue conversionResult
                 in
-                Expect.true "Should be equal" result
+                if result then
+                    Expect.pass
+
+                else
+                    Expect.fail "Should be equal"
         , Test.fuzz3
-            (Fuzz.map Real.Real Fuzz.float)
-            (Fuzz.map Real.Real Fuzz.float)
-            (Fuzz.map Real.Real Fuzz.float)
+            (Fuzz.map Real.Real Fuzz.niceFloat)
+            (Fuzz.map Real.Real Fuzz.niceFloat)
+            (Fuzz.map Real.Real Fuzz.niceFloat)
             "tests ComplexNumbers polar multiplication is commutative"
           <|
             \one two three ->
@@ -460,8 +476,8 @@ suite =
                 powerResult
                     |> Expect.equal productResult
         , Test.fuzz2
-            Fuzz.float
-            Fuzz.float
+            Fuzz.niceFloat
+            Fuzz.niceFloat
             "print ComplexNumber"
           <|
             \one two ->
@@ -486,13 +502,17 @@ suite =
                     complexNumberAtPi =
                         ComplexNumbers.euler (Real.Real Basics.pi)
                 in
-                Expect.true "e ^ (i * pi) + 1 = 0"
-                    (ComplexNumbers.equal.eq
+                if
+                    ComplexNumbers.equal.eq
                         (ComplexNumbers.add complexNumberAtPi ComplexNumbers.one)
                         ComplexNumbers.zero
-                    )
+                then
+                    Expect.pass
+
+                else
+                    Expect.fail "e ^ (i * pi) + 1 = 0"
         , Test.fuzz
-            (Fuzz.map Real.Real Fuzz.float)
+            (Fuzz.map Real.Real Fuzz.niceFloat)
             "test length of e ^ (i * theta)"
           <|
             \one ->
@@ -500,9 +520,13 @@ suite =
                     complexNumber =
                         ComplexNumbers.euler one
                 in
-                Expect.true "length of e ^ (i * theta) == 1" (Real.equal.eq (ComplexNumbers.modulus complexNumber) Real.one)
+                if Real.equal.eq (ComplexNumbers.modulus complexNumber) Real.one then
+                    Expect.pass
+
+                else
+                    Expect.fail "length of e ^ (i * theta) == 1"
         , Test.fuzz
-            (Fuzz.map Real.Real Fuzz.float)
+            (Fuzz.map Real.Real Fuzz.niceFloat)
             "conjugate of e ^ (i * theta) = e ^ -i * theta)"
           <|
             \one ->
@@ -549,9 +573,13 @@ suite =
                     expected =
                         ComplexNumbers.ComplexNumber (Real.Real (1 / 2)) (Imaginary.Imaginary (Real.Real (Basics.sqrt 3 / 2)))
                 in
-                Expect.true "(e^30*i)^2 == 0.5 + (sqrt 3/2)i"
-                    (ComplexNumbers.equal.eq
+                if
+                    ComplexNumbers.equal.eq
                         testComplexNumber
                         expected
-                    )
+                then
+                    Expect.pass
+
+                else
+                    Expect.fail "(e^30*i)^2 == 0.5 + (sqrt 3/2)i"
         ]

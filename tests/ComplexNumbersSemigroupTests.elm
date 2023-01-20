@@ -75,9 +75,9 @@ suite =
                 aTimesB
                     |> Expect.equal bTimesA
         , Test.fuzz3
-            (Fuzz.map Real.Real Fuzz.float)
-            (Fuzz.map Real.Real Fuzz.float)
-            (Fuzz.map Real.Real Fuzz.float)
+            (Fuzz.map Real.Real (Fuzz.floatRange -10 10))
+            (Fuzz.map Real.Real (Fuzz.floatRange -10 10))
+            (Fuzz.map Real.Real (Fuzz.floatRange -10 10))
             "tests ComplexNumbers multiplication is commutative"
           <|
             \one two three ->
@@ -132,5 +132,10 @@ suite =
                     result =
                         ComplexNumbers.equal.eq testValueOne testValueTwo
                 in
-                Expect.true "equal" result
+                if result then
+                    Expect.pass
+
+                else
+                    Expect.fail
+                        "equal"
         ]
