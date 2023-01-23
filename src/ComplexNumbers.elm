@@ -275,6 +275,7 @@ convertFromCartesianToPolar :
     -> Internal.ComplexNumbers.ComplexNumber Float
 convertFromCartesianToPolar (ComplexNumber (Real.Real rl) (Imaginary.Imaginary (Real.Real imag))) =
     let
+        polar : ( Real.Real Float, Real.Real Float )
         polar =
             toPolar ( rl, imag )
                 |> Tuple.mapBoth Real.Real Real.Real
@@ -291,6 +292,7 @@ convertFromPolarToCartesian :
     -> ComplexNumber Float
 convertFromPolarToCartesian (Internal.ComplexNumbers.ComplexNumber (Internal.ComplexNumbers.Modulus (Real.Real ro)) (Internal.ComplexNumbers.Theta (Real.Real theta))) =
     let
+        cartesian : ( Float, Float )
         cartesian =
             fromPolar ( ro, theta )
     in

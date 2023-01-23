@@ -1,4 +1,4 @@
-module ComplexNumbersSemigroupTests exposing (..)
+module ComplexNumbersSemigroupTests exposing (suite)
 
 import CommutativeSemigroup
 import ComplexNumbers

@@ -438,12 +438,16 @@ printNotationWithRounding toString (Real rl) =
         ++ toString (Basics.abs rl)
 
 
+{-| Cosine function for Real numbers
+-}
 cos : Real Float -> Real Float
 cos (Real num) =
     Basics.cos num
         |> Real
 
 
+{-| Sine function for Real numbers
+-}
 sin : Real Float -> Real Float
 sin (Real num) =
     Basics.sin num
